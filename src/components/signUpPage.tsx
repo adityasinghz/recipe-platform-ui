@@ -1,10 +1,7 @@
-import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -12,20 +9,38 @@ import Grid from '@mui/material/Grid';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useForm } from 'react-hook-form';
 import Copyright from './copyRight.tsx';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import InputFileUpload from './uploadButton.tsx';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
+const schema = z.object({
+  firstName: z.string().min(3, 'First name must be 2 characters long'),
+  lastName: z.string().min(3,'Last name must be 2 characters long'),
+  email: z.string().email('Invalid email address').min(1),
+  password: z.string().min(8, 'Password must be at least 8 characters long'),
+});
+
+type FormInputs = z.infer<typeof schema>;
+
 export default function SignUp() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+  const { register,handleSubmit, formState: { errors }, trigger } = useForm<FormInputs>({
+    resolver: zodResolver(schema),
+    mode: 'onChange',
+  });
+
+  const handleBlur = async (field: keyof FormInputs) => {
+    await trigger(field);
   };
+
+  const onSubmit = (data: any) => {
+    console.log(data); // You can perform further actions with the form data here
+  };
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -61,49 +76,65 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
             <Grid container spacing={2} sx={{display:'flex', justifyContent:'center', alignItems:'center', padding:2}}>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  {...register('firstName', { required: true })}
                   autoComplete="given-name"
                   name="firstName"
                   required
                   fullWidth
                   id="firstName"
                   label="First Name"
-                  autoFocus
+                  onBlur={() => handleBlur('firstName')}
+                  error={!!errors.firstName}
+                  helperText={errors.firstName?.message}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  {...register('lastName', { required: true })}
                   required
                   fullWidth
                   id="lastName"
                   label="Last Name"
                   name="lastName"
-                  autoComplete="family-name"
+                  onBlur={() => handleBlur('lastName')}
+                  error={!!errors.lastName}
+                  helperText={errors.lastName?.message}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  {...register('email', { required: true })}
                   required
                   fullWidth
                   id="email"
                   label="Email Address"
                   name="email"
+                  error={!!errors.email}
+                  onBlur={() => handleBlur('email')}
                   autoComplete="email"
+                  helperText={errors.email?.message}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  {...register('password', { required: true })}
                   required
                   fullWidth
                   name="password"
                   label="Password"
                   type="password"
                   id="password"
-                  autoComplete="new-password"
+                  onBlur={() => handleBlur('password')}
+                  error={!!errors.password}
+                  helperText={errors.password?.message}
                 />
+              </Grid>
+              <Grid item xs={12} md={12} sx={{display:'flex',justifyContent:'center', alignItems:'center'}}>
+                <InputFileUpload/>
               </Grid>
               <Grid item xs={12} sm={9}>
                 <Button

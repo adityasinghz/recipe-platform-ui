@@ -2,13 +2,15 @@ import * as React from 'react';
 import { styled, useTheme, alpha } from '@mui/material/styles';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 import Avatar from '@mui/material/Avatar';
 import InputBase from '@mui/material/InputBase';
+const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -75,7 +77,8 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 const CustomAppBar: React.FC<AppBarProps> = ({ open, handleDrawerOpen }) => {
-  const theme = useTheme();
+    const theme = useTheme();
+    const colorMode = React.useContext(ColorModeContext);
 
   return (
     <AppBar position="fixed" open={open}>
@@ -92,9 +95,6 @@ const CustomAppBar: React.FC<AppBarProps> = ({ open, handleDrawerOpen }) => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-          My Custom App
-        </Typography>
         <Search>
           <SearchIconWrapper>
             <SearchIcon />
@@ -104,9 +104,10 @@ const CustomAppBar: React.FC<AppBarProps> = ({ open, handleDrawerOpen }) => {
             inputProps={{ 'aria-label': 'search' }}
           />
         </Search>
-        <IconButton color="inherit">
-          <NotificationsIcon />
-        </IconButton>
+        <Box sx={{ flexGrow: 1 }} />
+        <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+        {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+      </IconButton>
         <Avatar alt="User Avatar" src="/static/images/avatar/1.jpg" />
       </Toolbar>
     </AppBar>
