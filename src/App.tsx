@@ -3,6 +3,7 @@ import SignUp from './components/signUpPage.tsx';
 import ForgotPassword from './components/forgotPassword.tsx';
 import Profile from './components/profileComp.tsx';
 import SideBar from './components/sideBar.tsx';
+import Test from './components/test.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
@@ -31,6 +32,10 @@ const routes = createBrowserRouter([
   {
     path:'/dashboard',
     element:<SideBar/>
+  },
+  {
+    path:'/test',
+    element:<Test/>
   }
 ]);
 

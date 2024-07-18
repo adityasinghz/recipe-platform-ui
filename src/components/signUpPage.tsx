@@ -14,16 +14,27 @@ import Copyright from './copyRight.tsx';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import InputFileUpload from './uploadButton.tsx';
-
+import MenuItem from '@mui/material/MenuItem';
+import { useState,useMemo } from 'react';
+import countryList from 'react-select-country-list';
+import InputLabel from '@mui/material/InputLabel';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
+import { registerUser } from '../utils/axiosInstance.ts';
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 const schema = z.object({
-  firstName: z.string().min(3, 'First name must be 2 characters long'),
-  lastName: z.string().min(3,'Last name must be 2 characters long'),
+  firstName: z.string().min(3, 'First name must be 3 characters long'),
+  lastName: z.string().min(3,'Last name must be 3 characters long'),
   email: z.string().email('Invalid email address').min(1),
   password: z.string().min(8, 'Password must be at least 8 characters long'),
+  confirm_password: z.string().min(8, 'Password must be at least 8 characters long'),
+}).refine((data) => data.password === data.confirm_password, {
+  path: ['confirm_password'],
+  message: 'Passwords do not match',
 });
+;
 
 type FormInputs = z.infer<typeof schema>;
 
@@ -32,15 +43,26 @@ export default function SignUp() {
     resolver: zodResolver(schema),
     mode: 'onChange',
   });
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [country, setCountry] = useState<string>("India");
+  const options = useMemo(() => countryList().getData(), []);
 
   const handleBlur = async (field: keyof FormInputs) => {
     await trigger(field);
   };
-
+  const handleChange = (event: SelectChangeEvent) => {
+    setCountry(event.target.value as string);
+  };
   const onSubmit = (data: any) => {
+    data["country"] = country;
+    data["imageUrl"]=selectedImage||'';
+    data["confirmPassword"] = data["confirm_password"];
+    delete data["confirm_password"];
+
+
     console.log(data); // You can perform further actions with the form data here
   };
-
+  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -70,9 +92,16 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <HowToRegIcon />
-          </Avatar>
+        {selectedImage ? (
+        <Box mt={2}>
+         <Avatar src={selectedImage} alt="Uploaded" sx={{ width: 50, height: 50 }}/>
+        </Box>
+        ) : (
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.main', width: 50, height: 50 }}>
+          <HowToRegIcon />
+        </Avatar>
+        )}
+          
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
@@ -133,8 +162,43 @@ export default function SignUp() {
                   helperText={errors.password?.message}
                 />
               </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="label">Country</InputLabel>
+                   <Select
+                      labelId="country"
+                      id="country"
+                      value={country||''}
+                      label="Country"
+                      onChange={handleChange}
+                    >
+                      {options.map((option) => (
+                        <MenuItem key={option.value} value={option.label}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  {...register('confirm_password', { required: true })}
+                  required
+                  fullWidth
+                  name="confirm_password"
+                  label="Confirm Password"
+                  type="password"
+                  id="confirm_password"
+                  onBlur={() => handleBlur('confirm_password')}
+                  error={!!errors.confirm_password}
+                  helperText={errors.confirm_password?.message}
+                />
+              </Grid>
               <Grid item xs={12} md={12} sx={{display:'flex',justifyContent:'center', alignItems:'center'}}>
-                <InputFileUpload/>
+                <InputFileUpload 
+                  selectedImage={selectedImage}
+                  setSelectedImage={setSelectedImage}
+                />
               </Grid>
               <Grid item xs={12} sm={9}>
                 <Button
@@ -159,3 +223,20 @@ export default function SignUp() {
     </ThemeProvider>
   );
 }
+
+/*
+
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "password": "$2a$10$/T7bVznNjzbcgMpdjsfxvuONT.C9mDh8qdZ8Ay5P6j2QKy/JB3TbC",
+    "confirmPassword": "$2a$10$Ge9x.oj6ewrvi5vYHpk/tuMuAZPqiHp5vshtDEfi2/pIZObcqbxXy",
+    "country": "United States",
+    "region": "California",
+    "imageUrl": "http://example.com/profile-picture.jpg"
+}
+
+
+
+*/
