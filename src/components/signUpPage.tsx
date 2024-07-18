@@ -53,14 +53,18 @@ export default function SignUp() {
   const handleChange = (event: SelectChangeEvent) => {
     setCountry(event.target.value as string);
   };
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     data["country"] = country;
-    data["imageUrl"]=selectedImage||'';
+    data["imageUrl"] = selectedImage || '';
     data["confirmPassword"] = data["confirm_password"];
     delete data["confirm_password"];
 
-
-    console.log(data); // You can perform further actions with the form data here
+    try {
+      const response = await registerUser(data);
+      console.log("response", response);
+    } catch (error) {
+      console.error("Error registering user:", error);
+    }
   };
   
 
