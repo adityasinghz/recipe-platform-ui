@@ -1,11 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
 
-const base_url = "http://localhost:4545";
+const baseURL = import.meta.env.VITE_BASE_URL;
 
-export const loginUser = async (req : any) => {
-  return axios.post(`${base_url}/users/login`, req).then((res) => res);
+console.log('Base URL:', baseURL); // Debug log
+
+export const loginUser = async (req: any) => {
+  return axios.post(`${baseURL}/users/login`, req).then((res) => res);
 };
 
-export const registerUser = async (req : any) => {
-  return axios.post(`${base_url}/users/register`, req).then((res) => res);
+export const registerUser = async (req: any) => {
+  return axios.post(`${baseURL}/users/register`, req).then((res) => res);
 };

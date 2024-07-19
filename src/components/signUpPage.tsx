@@ -21,6 +21,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import { registerUser } from '../utils/axiosInstance.ts';
+import { useNavigate } from "react-router-dom";
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
@@ -43,6 +44,7 @@ export default function SignUp() {
     resolver: zodResolver(schema),
     mode: 'onChange',
   });
+  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [country, setCountry] = useState<string>("India");
   const options = useMemo(() => countryList().getData(), []);
@@ -61,7 +63,7 @@ export default function SignUp() {
 
     try {
       const response = await registerUser(data);
-      console.log("response", response);
+      navigate("/login");
     } catch (error) {
       console.error("Error registering user:", error);
     }
