@@ -1,27 +1,17 @@
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import {Avatar,Button,CssBaseline,TextField,Link,Paper,Box, Grid, Typography,MenuItem,InputLabel,FormControl} from '@mui/material'
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useForm } from 'react-hook-form';
 import Copyright from './copyRight.tsx';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import InputFileUpload from './uploadButton.tsx';
-import MenuItem from '@mui/material/MenuItem';
 import { useState,useMemo } from 'react';
 import countryList from 'react-select-country-list';
-import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import FormControl from '@mui/material/FormControl';
 import { registerUser } from '../utils/axiosInstance.ts';
 import { useNavigate } from "react-router-dom";
+
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
@@ -30,7 +20,7 @@ const schema = z.object({
   lastName: z.string().min(3,'Last name must be 3 characters long'),
   email: z.string().email('Invalid email address').min(1),
   password: z.string().min(8, 'Password must be at least 8 characters long'),
-  confirm_password: z.string().min(8, 'Password must be at least 8 characters long'),
+  confirm_password: z.string(),
 }).refine((data) => data.password === data.confirm_password, {
   path: ['confirm_password'],
   message: 'Passwords do not match',
@@ -57,12 +47,12 @@ export default function SignUp() {
   };
   const onSubmit = async (data: any) => {
     data["country"] = country;
-    data["imageUrl"] = selectedImage || '';
+    data["imageUrl"] = selectedImage || '';       
     data["confirmPassword"] = data["confirm_password"];
     delete data["confirm_password"];
 
     try {
-      const response = await registerUser(data);
+      await registerUser(data);
       navigate("/login");
     } catch (error) {
       console.error("Error registering user:", error);
