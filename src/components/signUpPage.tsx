@@ -11,7 +11,8 @@ import countryList from 'react-select-country-list';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { registerUser } from '../utils/axiosInstance.ts';
 import { useNavigate } from "react-router-dom";
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
@@ -47,14 +48,15 @@ export default function SignUp() {
   };
   const onSubmit = async (data: any) => {
     data["country"] = country;
-    data["imageUrl"] = selectedImage || '';       
-    data["confirmPassword"] = data["confirm_password"];
     delete data["confirm_password"];
-
+    console.log("data ",data);
+    //data["imageUrl"] = selectedImage || '';
     try {
-      await registerUser(data);
-      navigate("/login");
+     let response =  await registerUser(data);
+     console.log("response ",response);
+     navigate("/login");
     } catch (error) {
+      toast("Internal Server Error");
       console.error("Error registering user:", error);
     }
   };
@@ -101,8 +103,15 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
+          <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2} sx={{display:'flex', justifyContent:'center', alignItems:'center', padding:2}}>
+            <Grid item xs={12} md={12} sx={{display:'flex',justifyContent:'center', alignItems:'center'}}>
+                <InputFileUpload 
+                  selectedImage={selectedImage}
+                  setSelectedImage={setSelectedImage}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12}></Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   {...register('firstName', { required: true })}
@@ -188,12 +197,6 @@ export default function SignUp() {
                   onBlur={() => handleBlur('confirm_password')}
                   error={!!errors.confirm_password}
                   helperText={errors.confirm_password?.message}
-                />
-              </Grid>
-              <Grid item xs={12} md={12} sx={{display:'flex',justifyContent:'center', alignItems:'center'}}>
-                <InputFileUpload 
-                  selectedImage={selectedImage}
-                  setSelectedImage={setSelectedImage}
                 />
               </Grid>
               <Grid item xs={12} sm={9}>

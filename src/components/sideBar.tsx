@@ -16,6 +16,7 @@ import PublishIcon from '@mui/icons-material/Publish';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CustomAppBar from './AppBar'; // Make sure the path is correct
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -68,6 +69,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function MiniDrawer() {
   const theme = useTheme();
+  
+  const navigate = useNavigate();
+
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -77,6 +81,11 @@ export default function MiniDrawer() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const handleLogout = () =>{
+    localStorage.clear();
+    navigate('/');
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -151,6 +160,7 @@ export default function MiniDrawer() {
             </ListItem>
             <ListItem key={"submit"} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
+                onClick={handleLogout}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
@@ -166,7 +176,7 @@ export default function MiniDrawer() {
                 >
                   <LogoutIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Log Out"} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={"Log Out"} sx={{ opacity: open ? 1 : 0 }}/>
               </ListItemButton>
             </ListItem>
         </List>

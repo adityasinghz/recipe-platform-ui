@@ -4,48 +4,48 @@ import ForgotPassword from './components/forgotPassword.tsx';
 import Profile from './components/profileComp.tsx';
 import SideBar from './components/sideBar.tsx';
 import Test from './components/test.tsx';
+import ProtectedRoute from './components/ProtectedRoute';
+import AuthenticatedRoute from './components/AuthenticatedRoute';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-
 
 const routes = createBrowserRouter([
   {
     path: "/",
-    element: <SignIn />,
+    element: <AuthenticatedRoute key="signin"><SignIn /></AuthenticatedRoute>
   },
   {
     path: "/login",
-    element: <SignIn />,
+    element: <AuthenticatedRoute key="login"><SignIn /></AuthenticatedRoute>
   },
   {
     path: "/register",
-    element: <SignUp />
+    element: <AuthenticatedRoute key="signup"><SignUp /></AuthenticatedRoute>
   },
   {
-    path:"/forgotpassword",
-    element: <ForgotPassword/>
+    path: "/forgotpassword",
+    element: <AuthenticatedRoute key="forgotpassword"><ForgotPassword /></AuthenticatedRoute>
   },
   {
     path: "/aboutTeamKailash",
-    element: <Profile/>
+    element: <Profile key="profile" />
   },
   {
-    path:'/dashboard',
-    element:<SideBar/>
+    path: '/dashboard',
+    element: <ProtectedRoute key="dashboard"><SideBar /></ProtectedRoute>
   },
   {
-    path:'/test',
-    element:<Test/>
+    path: '/test',
+    element: <Test key="test" />
   }
 ]);
-
 
 function App() {
   return (
     <>
-    <RouterProvider router={routes}></RouterProvider>
-    <ToastContainer />
-  </>
+      <RouterProvider router={routes}></RouterProvider>
+      <ToastContainer />
+    </>
   );
 }
 

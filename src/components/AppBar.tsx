@@ -10,7 +10,6 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import Avatar from '@mui/material/Avatar';
 import InputBase from '@mui/material/InputBase';
-const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -63,8 +62,8 @@ const AppBar = styled(MuiAppBar, {
 })<AppBarProps>(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
+  easing: theme.transitions.easing.sharp,
+  duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     marginLeft: 240, // drawerWidth
@@ -78,10 +77,9 @@ const AppBar = styled(MuiAppBar, {
 
 const CustomAppBar: React.FC<AppBarProps> = ({ open, handleDrawerOpen }) => {
     const theme = useTheme();
-    const colorMode = React.useContext(ColorModeContext);
-
+    console.log("theme.palette.mode", theme.palette.mode);
   return (
-    <AppBar position="fixed" open={open}>
+    <AppBar position="fixed" open={open} sx={{ backgroundColor: theme.palette.background.default }}>
       <Toolbar>
         <IconButton
           edge="start"
@@ -105,10 +103,10 @@ const CustomAppBar: React.FC<AppBarProps> = ({ open, handleDrawerOpen }) => {
           />
         </Search>
         <Box sx={{ flexGrow: 1 }} />
-        <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+        <IconButton sx={{ ml: 1 }} color="inherit">
         {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
       </IconButton>
-        <Avatar alt="User Avatar" src="/static/images/avatar/1.jpg" />
+        <Avatar alt="User Avatar" src="/public/images/aditya.jpeg" />
       </Toolbar>
     </AppBar>
   );

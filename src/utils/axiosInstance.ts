@@ -5,5 +5,5 @@ export const loginUser = async (req: any) => {
 };
 
 export const registerUser = async (req: any) => {
-  return axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, req).then((res) => res);
+  return axios.post(`${import.meta.env.VITE_BASE_URL}/users`, req).then((res) => res);
 };

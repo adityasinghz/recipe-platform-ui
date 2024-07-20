@@ -14,6 +14,9 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import 'react-toastify/dist/ReactToastify.css';
 import Copyright from './copyRight.tsx';
+import { loginUser } from '../utils/axiosInstance.ts';
+import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const defaultTheme = createTheme();
 
@@ -29,9 +32,20 @@ export default function SignIn() {
     resolver: zodResolver(schema),
     mode: 'onChange',
   });
-
-  const onSubmit: SubmitHandler<FormInputs> = data => {
+  const navigate = useNavigate();
+  const onSubmit: SubmitHandler<FormInputs> = async data => {
     console.log(data);
+    try {
+    let response =  await loginUser(data);
+    const token = response["data"]["developerMessage"] || null;
+    localStorage.setItem('jwtToken', token);
+    console.log("response ",response["data"]["developerMessage"]);
+    navigate("/dashboard");
+    } catch (error) {
+      toast("Internal Server Error");
+      console.error("Error registering user:", error);
+    }
+
   };
 
   const handleBlur = async (field: keyof FormInputs) => {
@@ -102,7 +116,6 @@ export default function SignIn() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                href='/dashboard'
                 sx={{ mt: 3, mb: 2 }}
                 disabled={!isValid}
               >
