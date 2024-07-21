@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 
@@ -29,6 +29,9 @@ const ThemeContextProvider = ({ children }: ThemeContextProviderProps) => {
   const theme = createTheme({
     palette: {
       mode,
+      primary: {
+        main: mode === 'light' ? '#007600' : '#1976d2', // Change these colors to your desired primary colors
+      },
     },
   });
 

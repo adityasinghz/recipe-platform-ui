@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LoginIcon from '@mui/icons-material/Login';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,8 +17,7 @@ import Copyright from './copyRight.tsx';
 import { loginUser } from '../utils/axiosInstance.ts';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
-
-const defaultTheme = createTheme();
+import { useTheme } from '@mui/material';
 
 const schema = z.object({
   email: z.string().email('Invalid email address').min(1, 'Email is required'),
@@ -34,7 +33,6 @@ export default function SignIn() {
   });
   const navigate = useNavigate();
   const onSubmit: SubmitHandler<FormInputs> = async data => {
-    console.log(data);
     try {
     let response =  await loginUser(data);
     const token = response["data"]["developerMessage"] || null;
@@ -51,9 +49,9 @@ export default function SignIn() {
   const handleBlur = async (field: keyof FormInputs) => {
     await trigger(field);
   };
-
+  const theme = useTheme();
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -68,6 +66,7 @@ export default function SignIn() {
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
             backgroundPosition: 'left',
+            filter: 'blur(2px)', // Apply blur effect
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>

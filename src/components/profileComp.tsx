@@ -5,6 +5,8 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
 
 // Sample data array
 const profiles = [
@@ -69,8 +71,17 @@ const profiles = [
 export default function Profile() {
   return (
     <Grid container spacing={6}>
+      <Grid item md={12} xs={12}>
+      <AppBar sx={{ position: 'relative' }}>
+          <Toolbar>
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+               Dev Team
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </Grid>
       {profiles.map((profile, index) => (
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={3} sx={{padding:4}}>
         <Card sx={{ maxWidth: 250}} key={index}>
           <CardMedia
             component="img"

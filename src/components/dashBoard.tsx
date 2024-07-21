@@ -130,7 +130,7 @@ export default function DashBoard() {
                 <ListItemText primary={"Submit Your Recipe"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
-            <ListItem key={"submit"} disablePadding sx={{ display: 'block' }}>
+            <ListItem key={"favorite"} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -151,7 +151,7 @@ export default function DashBoard() {
                 <ListItemText primary={"Favorite Recipe"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
-            <ListItem key={"submit"} disablePadding sx={{ display: 'block' }}>
+            <ListItem key={"view"} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -172,7 +172,7 @@ export default function DashBoard() {
                 <ListItemText primary={"View My Recipe"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
-            <ListItem key={"submit"} disablePadding sx={{ display: 'block' }}>
+            <ListItem key={"logout"} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 onClick={handleLogout}
                 sx={{

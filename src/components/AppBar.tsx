@@ -75,7 +75,7 @@ const AppBar = styled(MuiAppBar, {
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
-    }),
+    })
   }),
 }));
 
@@ -114,7 +114,7 @@ const CustomAppBar: React.FC<AppBarProps> = ({ open, handleDrawerOpen, isSubmit 
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           {isSubmit && (
-            <IconButton sx={{ ml: 1 }} onClick={handleSubmitRecipe} color="inherit" size='large'>
+            <IconButton sx={{ ml: 1, transform: 'rotate(180deg)' }} onClick={handleSubmitRecipe} color="inherit" size='large'>
               <AddCircleIcon fontSize='large' />
             </IconButton>
           )}

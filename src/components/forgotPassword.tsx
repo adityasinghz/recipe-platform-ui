@@ -8,13 +8,13 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Copyright from './copyRight';
+import { useTheme } from '@mui/material';
 
-const defaultTheme = createTheme();
 
 const schema = z.object({
   email: z.string().email('Invalid email address').min(1),
@@ -95,9 +95,9 @@ export default function ForgotPassword() {
       alert('Secret key validation failed');
     }
   };
-
+ const theme  = useTheme();
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -112,6 +112,7 @@ export default function ForgotPassword() {
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
             backgroundPosition: 'left',
+            filter: 'blur(2px)', // Apply blur effect
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>

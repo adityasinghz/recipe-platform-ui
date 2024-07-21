@@ -1,6 +1,6 @@
 import {Avatar,Button,CssBaseline,TextField,Link,Paper,Box, Grid, Typography,MenuItem,InputLabel,FormControl} from '@mui/material'
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { useForm } from 'react-hook-form';
 import Copyright from './copyRight.tsx';
 import { z } from 'zod';
@@ -12,9 +12,8 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { registerUser } from '../utils/axiosInstance.ts';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
+import { useTheme } from '@mui/material';
 import 'react-toastify/dist/ReactToastify.css';
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
 
 const schema = z.object({
   firstName: z.string().min(3, 'First name must be 3 characters long'),
@@ -31,7 +30,7 @@ const schema = z.object({
 type FormInputs = z.infer<typeof schema>;
 
 export default function SignUp() {
-  const { register,handleSubmit, formState: { errors }, trigger } = useForm<FormInputs>({
+  const { register,handleSubmit, formState: { errors, isValid }, trigger } = useForm<FormInputs>({
     resolver: zodResolver(schema),
     mode: 'onChange',
   });
@@ -60,10 +59,9 @@ export default function SignUp() {
       console.error("Error registering user:", error);
     }
   };
-  
-
+  const theme = useTheme();
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -79,6 +77,7 @@ export default function SignUp() {
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
             backgroundPosition: 'left',
+            filter: 'blur(2px)', // Apply blur effect
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -204,6 +203,7 @@ export default function SignUp() {
                 type="submit"
                 fullWidth
                 variant="contained"
+                disabled={!isValid}
                 >
                 Sign Up
                 </Button>
