@@ -86,7 +86,8 @@ export default function DashBoard() {
   };
 
   const handleLogout = () =>{
-    localStorage.clear();
+    localStorage.removeItem('jwtToken');
+    //localStorage.clear();
     navigate('/');
   }
   const handleSubmitRecipe =()=>{

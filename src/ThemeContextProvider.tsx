@@ -30,7 +30,7 @@ const ThemeContextProvider = ({ children }: ThemeContextProviderProps) => {
     palette: {
       mode,
       primary: {
-        main: mode === 'light' ? '#007600' : '#1976d2', // Change these colors to your desired primary colors
+        main: mode === 'light' ? '#007600' : '#d2c619',
       },
     },
   });
