@@ -1,14 +1,13 @@
+// src/App.tsx
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import SignIn from './components/signInPage.tsx';
 import SignUp from './components/signUpPage.tsx';
 import ForgotPassword from './components/forgotPassword.tsx';
 import Profile from './components/profileComp.tsx';
-import SideBar from './components/sideBar.tsx';
+import DashBoard from './components/dashBoard.tsx';
 import Test from './components/test.tsx';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthenticatedRoute from './components/AuthenticatedRoute';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -32,7 +31,7 @@ const routes = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <ProtectedRoute key="dashboard"><SideBar /></ProtectedRoute>
+    element: <ProtectedRoute key="dashboard"><DashBoard /></ProtectedRoute>
   },
   {
     path: '/test',
@@ -42,10 +41,7 @@ const routes = createBrowserRouter([
 
 function App() {
   return (
-    <>
-      <RouterProvider router={routes}></RouterProvider>
-      <ToastContainer />
-    </>
+      <RouterProvider router={routes} />
   );
 }
 

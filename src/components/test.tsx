@@ -1,10 +1,18 @@
-function Test() {
-  return (
-    <>
-    <div style={{width:"50px", height:"500px"}}>hi</div>
-    <div style={{width:"50px", height:"500px"}}>hi</div>
-    </>
-  )
-}
+import { useThemeContext } from '../ThemeContextProvider'; // Adjust the path as necessary
+import { useTheme, Button } from '@mui/material';
 
-export default Test
+const SomeComponent = () => {
+  const { toggleTheme, mode } = useThemeContext();
+  const theme = useTheme();
+
+  return (
+    <div>
+      <Button onClick={toggleTheme}>
+        Toggle to {mode === 'light' ? 'dark' : 'light'} mode
+      </Button>
+      <p>Current primary color: {theme.palette.primary.main}</p>
+    </div>
+  );
+};
+
+export default SomeComponent;

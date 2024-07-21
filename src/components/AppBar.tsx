@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, useTheme, alpha } from '@mui/material/styles';
+import { styled, alpha } from '@mui/material/styles';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
@@ -10,6 +10,9 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import Avatar from '@mui/material/Avatar';
 import InputBase from '@mui/material/InputBase';
+import { useThemeContext } from '../ThemeContextProvider'; // Adjust the path as necessary
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import SubmitRecipe from './submitRecipe';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -55,6 +58,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
   handleDrawerOpen: () => void;
+  isSubmit?: boolean;
 }
 
 const AppBar = styled(MuiAppBar, {
@@ -62,8 +66,8 @@ const AppBar = styled(MuiAppBar, {
 })<AppBarProps>(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
-  easing: theme.transitions.easing.sharp,
-  duration: theme.transitions.duration.leavingScreen,
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     marginLeft: 240, // drawerWidth
@@ -75,40 +79,54 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const CustomAppBar: React.FC<AppBarProps> = ({ open, handleDrawerOpen }) => {
-    const theme = useTheme();
-    console.log("theme.palette.mode", theme.palette.mode);
+const CustomAppBar: React.FC<AppBarProps> = ({ open, handleDrawerOpen, isSubmit }) => {
+  const { toggleTheme, mode } = useThemeContext();
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+
+  const handleSubmitRecipe = () => {
+    setDialogOpen(true);
+  };
+
   return (
-    <AppBar position="fixed" open={open} sx={{ backgroundColor: theme.palette.background.default }}>
-      <Toolbar>
-        <IconButton
-          edge="start"
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleDrawerOpen}
-          sx={{
-            marginRight: 5,
-            ...(open && { display: 'none' }),
-          }}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder="Search…"
-            inputProps={{ 'aria-label': 'search' }}
-          />
-        </Search>
-        <Box sx={{ flexGrow: 1 }} />
-        <IconButton sx={{ ml: 1 }} color="inherit">
-        {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-      </IconButton>
-        <Avatar alt="User Avatar" src="/public/images/aditya.jpeg" />
-      </Toolbar>
-    </AppBar>
+    <>
+      <AppBar position="fixed" open={open}>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            sx={{
+              marginRight: 5,
+              ...(open && { display: 'none' }),
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search>
+          <Box sx={{ flexGrow: 1 }} />
+          {isSubmit && (
+            <IconButton sx={{ ml: 1 }} onClick={handleSubmitRecipe} color="inherit" size='large'>
+              <AddCircleIcon fontSize='large' />
+            </IconButton>
+          )}
+          <IconButton sx={{ mr: 1 }} onClick={toggleTheme} color="inherit">
+            {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+          </IconButton>
+          <Avatar alt="User Avatar" src="/images/aditya.jpeg" />
+        </Toolbar>
+      </AppBar>
+
+      <SubmitRecipe addItem={dialogOpen} setItem={setDialogOpen} />
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import { styled, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -17,6 +17,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import CustomAppBar from './AppBar'; // Make sure the path is correct
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from "react-router-dom";
+import { useTheme } from '@mui/material';
+
 
 const drawerWidth = 240;
 
@@ -67,12 +69,13 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function MiniDrawer() {
+export default function DashBoard() {
   const theme = useTheme();
   
   const navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
+  const [isSubmit, setSubmit] =React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -86,11 +89,19 @@ export default function MiniDrawer() {
     localStorage.clear();
     navigate('/');
   }
-
+  const handleSubmitRecipe =()=>{
+      setSubmit(true);
+  }
+  const handleViewRecipe=()=>{
+      setSubmit(false);
+  }
+  const handleFavoriteRecipe=()=>{
+      setSubmit(false);
+  }
   return (
-    <Box sx={{ display: 'flex' }}>
+ <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <CustomAppBar open={open} handleDrawerOpen={handleDrawerOpen} />
+      <CustomAppBar open={open} isSubmit={isSubmit} handleDrawerOpen={handleDrawerOpen} />
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -105,7 +116,8 @@ export default function MiniDrawer() {
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
-              >
+                onClick={handleSubmitRecipe} 
+               >
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
@@ -125,6 +137,7 @@ export default function MiniDrawer() {
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
+                onClick={handleFavoriteRecipe}
               >
                 <ListItemIcon
                   sx={{
@@ -145,6 +158,7 @@ export default function MiniDrawer() {
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
+                onClick={handleViewRecipe}
               >
                 <ListItemIcon
                   sx={{
