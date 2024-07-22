@@ -8,6 +8,7 @@ import DashBoard from './components/dashBoard.tsx';
 import Test from './components/test.tsx';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthenticatedRoute from './components/AuthenticatedRoute';
+import { ToastContainer } from 'react-toastify';
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -41,7 +42,7 @@ const routes = createBrowserRouter([
 
 function App() {
   return (
-      <RouterProvider router={routes} />
+    <><ToastContainer/><RouterProvider router={routes} /></>
   );
 }
 

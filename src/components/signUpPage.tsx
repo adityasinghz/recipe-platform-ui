@@ -52,10 +52,10 @@ export default function SignUp() {
     //data["imageUrl"] = selectedImage || '';
     try {
      let response =  await registerUser(data);
-     console.log("response ",response);
+     if(response.status==201)
      navigate("/login");
     } catch (error) {
-      toast("Internal Server Error");
+      toast.error("User Already Exist");
       console.error("Error registering user:", error);
     }
   };
@@ -77,7 +77,7 @@ export default function SignUp() {
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
             backgroundPosition: 'left',
-            filter: 'blur(2px)', // Apply blur effect
+            filter: 'blur(2px)',
             transition: 'background-image 0.3s ease-in-out',
           }}
         />

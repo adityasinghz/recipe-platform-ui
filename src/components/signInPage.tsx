@@ -16,8 +16,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Copyright from './copyRight.tsx';
 import { loginUser } from '../utils/axiosInstance.ts';
 import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
 import { useTheme } from '@mui/material';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import the CSS
 
 const schema = z.object({
   email: z.string().email('Invalid email address').min(1, 'Email is required'),
@@ -38,11 +39,9 @@ export default function SignIn() {
     const token = response["data"]["developerMessage"] || null;
     if(token){localStorage.setItem('jwtToken', token);navigate("/dashboard");}
     } catch (error) {
-      toast("User Not Exist");
-      navigate("/register");
+      toast.error("Invalid Credentials");
       console.error("Error registering user:", error);
     }
-
   };
 
   const handleBlur = async (field: keyof FormInputs) => {
