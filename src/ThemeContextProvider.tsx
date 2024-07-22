@@ -1,5 +1,5 @@
 import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
-import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
+import { createTheme, ThemeProvider} from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 
 interface ThemeContextProps {
