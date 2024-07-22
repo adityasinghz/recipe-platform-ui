@@ -57,7 +57,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
-  handleDrawerOpen: () => void;
+  handleDrawerOpen?: () => void;
   isSubmit?: boolean;
 }
 

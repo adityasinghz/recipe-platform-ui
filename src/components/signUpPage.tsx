@@ -52,10 +52,12 @@ export default function SignUp() {
     //data["imageUrl"] = selectedImage || '';
     try {
      let response =  await registerUser(data);
-     if(response.status==201)
-     navigate("/login");
+     if(response.status==201){
+       toast.success("Account Has Been Created")
+       navigate("/login");
+     }
     } catch (error) {
-      toast.error("User Already Exist");
+      toast.error("Account Already Registered");
       console.error("Error registering user:", error);
     }
   };

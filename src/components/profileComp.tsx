@@ -62,7 +62,7 @@ const profiles = [
   {
     name: 'Shashwat Swaraj',
     title: 'Backend Developer (Java)',
-    image: '/images/photo2.jpeg',
+    image: '/images/swaraj.jpeg',
     telescopeLink: 'https://telescope.epam.com/who/Shashwat_Swaraj?tab=cv',
     linkedInLink: 'https://www.linkedin.com/in/shashwat-swaraj-903a0b196/'
   }

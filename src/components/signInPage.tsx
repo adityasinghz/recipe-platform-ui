@@ -18,7 +18,7 @@ import { loginUser } from '../utils/axiosInstance.ts';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from '@mui/material';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import the CSS
+import 'react-toastify/dist/ReactToastify.css';
 
 const schema = z.object({
   email: z.string().email('Invalid email address').min(1, 'Email is required'),
@@ -36,8 +36,12 @@ export default function SignIn() {
   const onSubmit: SubmitHandler<FormInputs> = async data => {
     try {
     let response =  await loginUser(data);
-    const token = response["data"]["developerMessage"] || null;
-    if(token){localStorage.setItem('jwtToken', token);navigate("/dashboard");}
+    const token = response["data"]["token"] || null;
+    if(token){
+      toast.success("Logged In Successfully");
+      localStorage.setItem('jwtToken', token);
+      navigate("/dashboard");
+    }
     } catch (error) {
       toast.error("Invalid Credentials");
       console.error("Error registering user:", error);
