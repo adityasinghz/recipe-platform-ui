@@ -36,11 +36,10 @@ export default function SignIn() {
     try {
     let response =  await loginUser(data);
     const token = response["data"]["developerMessage"] || null;
-    localStorage.setItem('jwtToken', token);
-    console.log("response ",response["data"]["developerMessage"]);
-    navigate("/dashboard");
+    if(token){localStorage.setItem('jwtToken', token);navigate("/dashboard");}
     } catch (error) {
-      toast("Internal Server Error");
+      toast("User Not Exist");
+      navigate("/register");
       console.error("Error registering user:", error);
     }
 
@@ -66,7 +65,7 @@ export default function SignIn() {
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
             backgroundPosition: 'left',
-            filter: 'blur(2px)', // Apply blur effect
+            filter: 'blur(2px)',
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>

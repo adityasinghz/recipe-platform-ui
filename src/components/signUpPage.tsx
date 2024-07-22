@@ -78,6 +78,7 @@ export default function SignUp() {
             backgroundSize: 'cover',
             backgroundPosition: 'left',
             filter: 'blur(2px)', // Apply blur effect
+            transition: 'background-image 0.3s ease-in-out',
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
