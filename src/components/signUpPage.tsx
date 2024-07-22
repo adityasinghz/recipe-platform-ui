@@ -53,11 +53,11 @@ export default function SignUp() {
     try {
      let response =  await registerUser(data);
      if(response.status==201){
-       toast.success("Account Has Been Created")
+       toast.success("Account Has Been Created!")
        navigate("/login");
      }
     } catch (error) {
-      toast.error("Account Already Registered");
+      toast.error("Account Already Registered!");
       console.error("Error registering user:", error);
     }
   };

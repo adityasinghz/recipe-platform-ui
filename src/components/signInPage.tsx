@@ -38,7 +38,7 @@ export default function SignIn() {
     let response =  await loginUser(data);
     const token = response["data"]["token"] || null;
     if(token){
-      toast.success("Logged In Successfully");
+      toast.success("Logged In Successfully!");
       localStorage.setItem('jwtToken', token);
       navigate("/dashboard");
     }

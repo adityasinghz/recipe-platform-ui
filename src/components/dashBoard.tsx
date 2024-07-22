@@ -18,6 +18,8 @@ import CustomAppBar from './AppBar'; // Make sure the path is correct
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from '@mui/material';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const drawerWidth = 240;
@@ -89,6 +91,7 @@ export default function DashBoard() {
     localStorage.removeItem('jwtToken');
     //localStorage.clear();
     navigate('/');
+    toast.error("Logged Out Successfully!");
   }
   const handleSubmitRecipe =()=>{
       setSubmit(true);
