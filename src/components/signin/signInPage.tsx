@@ -13,8 +13,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import 'react-toastify/dist/ReactToastify.css';
-import Copyright from './copyRight.tsx';
-import { loginUser } from '../utils/axiosInstance.ts';
+import Copyright from '../common/copyRight.tsx';
+import { loginUser } from '../../utils/axiosInstance.ts';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from '@mui/material';
 import { toast } from 'react-toastify';
@@ -35,9 +35,9 @@ export default function SignIn() {
   const navigate = useNavigate();
   const onSubmit: SubmitHandler<FormInputs> = async data => {
     try {
-    let response =  await loginUser(data);
-    const token = response["data"]["token"] || null;
-    if(token){
+    const response =  await loginUser(data);
+    if(response.status==200){
+      const token = response["data"]["token"] || null;
       toast.success("Logged In Successfully!");
       localStorage.setItem('jwtToken', token);
       navigate("/dashboard");

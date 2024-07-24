@@ -2,14 +2,14 @@ import {Avatar,Button,CssBaseline,TextField,Link,Paper,Box, Grid, Typography,Men
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { ThemeProvider } from '@mui/material/styles';
 import { useForm } from 'react-hook-form';
-import Copyright from './copyRight.tsx';
+import Copyright from '../common/copyRight.tsx';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import InputFileUpload from './uploadButton.tsx';
 import { useState,useMemo } from 'react';
 import countryList from 'react-select-country-list';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { registerUser } from '../utils/axiosInstance.ts';
+import { registerUser } from '../../utils/axiosInstance.ts';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { useTheme } from '@mui/material';

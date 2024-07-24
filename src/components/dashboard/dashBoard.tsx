@@ -13,13 +13,13 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import PublishIcon from '@mui/icons-material/Publish';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import CustomAppBar from './AppBar'; // Make sure the path is correct
+import VisibilityIcon from '@mui/icons-material/Visibility'; // Make sure the path is correct
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CustomAppBar from '../common/AppBar';
 
 
 const drawerWidth = 240;

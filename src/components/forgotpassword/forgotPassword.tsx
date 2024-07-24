@@ -12,7 +12,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Copyright from './copyRight';
+import Copyright from '../common/copyRight';
 import { useTheme } from '@mui/material';
 
 

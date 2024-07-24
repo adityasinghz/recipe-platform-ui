@@ -1,14 +1,15 @@
 // src/App.tsx
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import SignIn from './components/signInPage.tsx';
-import SignUp from './components/signUpPage.tsx';
-import ForgotPassword from './components/forgotPassword.tsx';
-import Profile from './components/profileComp.tsx';
-import DashBoard from './components/dashBoard.tsx';
-import Test from './components/test.tsx';
-import ProtectedRoute from './components/ProtectedRoute';
-import AuthenticatedRoute from './components/AuthenticatedRoute';
+import SignIn from './components/signin/signInPage.tsx';
+import SignUp from './components/signup/signUpPage.tsx';
+import ForgotPassword from './components/forgotpassword/forgotPassword.tsx';
+import Profile from './components/common/profileComp.tsx';
+import DashBoard from './components/dashboard/dashBoard.tsx';
+import ProtectedRoute from './components/common/ProtectedRoute.tsx';
+import AuthenticatedRoute from './components/common/AuthenticatedRoute.tsx';
 import { ToastContainer } from 'react-toastify';
+import SomeComponent from './components/common/test.tsx';
+
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -36,7 +37,7 @@ const routes = createBrowserRouter([
   },
   {
     path: '/test',
-    element: <Test key="test" />
+    element: <SomeComponent key="test" />
   }
 ]);
 

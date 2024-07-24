@@ -1,5 +1,5 @@
-import { useThemeContext } from '../ThemeContextProvider'; // Adjust the path as necessary
 import { useTheme, Button } from '@mui/material';
+import { useThemeContext } from '../../ThemeContextProvider';
 
 const SomeComponent = () => {
   const { toggleTheme, mode } = useThemeContext();

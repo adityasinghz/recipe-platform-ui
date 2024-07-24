@@ -10,9 +10,9 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import Avatar from '@mui/material/Avatar';
 import InputBase from '@mui/material/InputBase';
-import { useThemeContext } from '../ThemeContextProvider'; // Adjust the path as necessary
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import SubmitRecipe from './submitRecipe';
+import SubmitRecipe from '../dashboard/submitRecipe';
+import { useThemeContext } from '../../ThemeContextProvider';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
