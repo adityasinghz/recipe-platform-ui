@@ -23,6 +23,7 @@ import CustomAppBar from '../common/AppBar';
 import RecipeReviewCard from './recipeCard';
 import Cuisines from './countryCuisines';
 import SubmitRecipe from './submitRecipe';
+import DashboardSkeleton from './dashboardSkeleton';
 
 
 const drawerWidth = 240;
@@ -77,6 +78,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function DashBoard() {
   const theme = useTheme();
   const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [data, setData] = React.useState<(string | number)[]>([]);
+  console.log("data ",data);
   const navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
@@ -109,115 +112,116 @@ export default function DashBoard() {
       {/*FAV API*/}
   }
   return (
- <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <CustomAppBar open={open} isSubmit={isSubmit} handleDrawerOpen={handleDrawerOpen} />
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <List>
-            <ListItem key={"submit"} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
+  data ? (<Box sx={{ display: 'flex' }}>
+    <CssBaseline />
+    <CustomAppBar open={open} isSubmit={isSubmit} handleDrawerOpen={handleDrawerOpen} />
+    <Drawer variant="permanent" open={open}>
+      <DrawerHeader>
+        <IconButton onClick={handleDrawerClose}>
+          {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+        </IconButton>
+      </DrawerHeader>
+      <List>
+          <ListItem key={"submit"} disablePadding sx={{ display: 'block' }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+              onClick={handleSubmitRecipe} 
+             >
+              <ListItemIcon
                 sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-                onClick={handleSubmitRecipe} 
-               >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <AddCircleIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Add Your Recipe"} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-            <ListItem key={"favorite"} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-                onClick={handleFavoriteRecipe}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <StarRateIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Favorite Recipe"} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-            <ListItem key={"view"} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-                onClick={handleViewRecipe}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <VisibilityIcon />
-                </ListItemIcon>
-                <ListItemText primary={"View My Recipe"} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-            <ListItem key={"logout"} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                onClick={handleLogout}
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
                 }}
               >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <LogoutIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Log Out"} sx={{ opacity: open ? 1 : 0 }}/>
-              </ListItemButton>
-            </ListItem>
-        </List>
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-        {/* IS Submit? New UI : SameUI*/}
-         <Grid container spacing={6}>
-              <Cuisines/>
-              <Grid item xs={12} md={12} sm={12} lg={12}>
-                 <Grid item xs={12} md={4} sm={4} lg={4}>
-                    <RecipeReviewCard/>
-                </Grid>
+                <AddCircleIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Add Your Recipe"} sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem key={"favorite"} disablePadding sx={{ display: 'block' }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+              onClick={handleFavoriteRecipe}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                }}
+              >
+                <StarRateIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Favorite Recipe"} sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem key={"view"} disablePadding sx={{ display: 'block' }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+              onClick={handleViewRecipe}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                }}
+              >
+                <VisibilityIcon />
+              </ListItemIcon>
+              <ListItemText primary={"View My Recipe"} sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem key={"logout"} disablePadding sx={{ display: 'block' }}>
+            <ListItemButton
+              onClick={handleLogout}
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                }}
+              >
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Log Out"} sx={{ opacity: open ? 1 : 0 }}/>
+            </ListItemButton>
+          </ListItem>
+      </List>
+    </Drawer>
+    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <DrawerHeader />
+      {/* IS Submit? New UI : SameUI*/}
+       <Grid container spacing={6}>
+            <Cuisines/>
+            <Grid item xs={12} md={12} sm={12} lg={12}>
+               <Grid item xs={12} md={4} sm={4} lg={4}>
+                  <RecipeReviewCard/>
               </Grid>
-         </Grid>
-      </Box>
-      <SubmitRecipe addItem={dialogOpen} setItem={setDialogOpen} />
+            </Grid>
+       </Grid>
     </Box>
+    <SubmitRecipe addItem={dialogOpen} setItem={setDialogOpen} />
+  </Box>) : (<DashboardSkeleton/>)
+ 
   );
 }
