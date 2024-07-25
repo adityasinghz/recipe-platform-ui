@@ -46,7 +46,7 @@ export default function SubmitRecipe({addItem, setItem}:CreateRecipe) {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Submit Your Recipe
+              Add Your Recipe
             </Typography>
             <Button autoFocus color="inherit" onClick={handleClose}>
               save

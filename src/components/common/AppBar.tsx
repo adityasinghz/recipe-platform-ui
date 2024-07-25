@@ -10,8 +10,6 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import Avatar from '@mui/material/Avatar';
 import InputBase from '@mui/material/InputBase';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import SubmitRecipe from '../dashboard/submitRecipe';
 import { useThemeContext } from '../../ThemeContextProvider';
 
 const Search = styled('div')(({ theme }) => ({
@@ -79,14 +77,8 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const CustomAppBar: React.FC<AppBarProps> = ({ open, handleDrawerOpen, isSubmit }) => {
+const CustomAppBar: React.FC<AppBarProps> = ({ open, handleDrawerOpen }) => {
   const { toggleTheme, mode } = useThemeContext();
-  const [dialogOpen, setDialogOpen] = React.useState(false);
-
-  const handleSubmitRecipe = () => {
-    setDialogOpen(true);
-  };
-
   return (
     <>
       <AppBar position="fixed" open={open}>
@@ -113,19 +105,12 @@ const CustomAppBar: React.FC<AppBarProps> = ({ open, handleDrawerOpen, isSubmit 
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-          {isSubmit && (
-            <IconButton sx={{ ml: 1, transform: 'rotate(180deg)' }} onClick={handleSubmitRecipe} color="inherit" size='large'>
-              <AddCircleIcon fontSize='large' />
-            </IconButton>
-          )}
           <IconButton sx={{ mr: 1 }} onClick={toggleTheme} color="inherit">
             {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
           <Avatar alt="User Avatar" src="/images/aditya.jpeg" />
         </Toolbar>
       </AppBar>
-
-      <SubmitRecipe addItem={dialogOpen} setItem={setDialogOpen} />
     </>
   );
 };

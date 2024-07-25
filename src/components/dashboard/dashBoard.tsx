@@ -12,14 +12,17 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import PublishIcon from '@mui/icons-material/Publish';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import VisibilityIcon from '@mui/icons-material/Visibility'; // Make sure the path is correct
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from "react-router-dom";
-import { useTheme } from '@mui/material';
+import { Grid, useTheme } from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CustomAppBar from '../common/AppBar';
+import RecipeReviewCard from './recipeCard';
+import Cuisines from './countryCuisines';
+import SubmitRecipe from './submitRecipe';
 
 
 const drawerWidth = 240;
@@ -73,7 +76,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function DashBoard() {
   const theme = useTheme();
-  
+  const [dialogOpen, setDialogOpen] = React.useState(false);
   const navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
@@ -86,21 +89,24 @@ export default function DashBoard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
   const handleLogout = () =>{
     localStorage.removeItem('jwtToken');
     //localStorage.clear();
-    navigate('/');
-    toast.error("Logged Out Successfully!");
+    setTimeout(()=>{
+      navigate('/');},1000);
+      toast.error("Logged Out Successfully!");
   }
   const handleSubmitRecipe =()=>{
       setSubmit(true);
+      setDialogOpen(true);
   }
   const handleViewRecipe=()=>{
       setSubmit(false);
+      {/*VIEW API*/}
   }
   const handleFavoriteRecipe=()=>{
       setSubmit(false);
+      {/*FAV API*/}
   }
   return (
  <Box sx={{ display: 'flex' }}>
@@ -129,9 +135,9 @@ export default function DashBoard() {
                     justifyContent: 'center',
                   }}
                 >
-                  <PublishIcon />
+                  <AddCircleIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Submit Your Recipe"} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={"Add Your Recipe"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
             <ListItem key={"favorite"} disablePadding sx={{ display: 'block' }}>
@@ -201,8 +207,17 @@ export default function DashBoard() {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        {/*MAIN COMPONENT*/}
+        {/* IS Submit? New UI : SameUI*/}
+         <Grid container spacing={6}>
+              <Cuisines/>
+              <Grid item xs={12} md={12} sm={12} lg={12}>
+                 <Grid item xs={12} md={4} sm={4} lg={4}>
+                    <RecipeReviewCard/>
+                </Grid>
+              </Grid>
+         </Grid>
       </Box>
+      <SubmitRecipe addItem={dialogOpen} setItem={setDialogOpen} />
     </Box>
   );
 }

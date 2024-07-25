@@ -112,7 +112,7 @@ export default function ForgotPassword() {
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
             backgroundPosition: 'left',
-            filter: 'blur(2px)', // Apply blur effect
+            filter: 'blur(1px)', // Apply blur effect
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>

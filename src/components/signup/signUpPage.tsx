@@ -9,7 +9,7 @@ import InputFileUpload from './uploadButton.tsx';
 import { useState,useMemo } from 'react';
 import countryList from 'react-select-country-list';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { registerUser } from '../../utils/axiosInstance.ts';
+import { registerUser } from '../../utils/user_service/user_api.ts';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { useTheme } from '@mui/material';
@@ -51,10 +51,10 @@ export default function SignUp() {
     console.log("data ",data);
     //data["imageUrl"] = selectedImage || '';
     try {
-     let response =  await registerUser(data);
+     const response =  await registerUser(data);
      if(response.status==201){
-       toast.success("Account Has Been Created!")
-       navigate("/login");
+       setTimeout(()=>{navigate("/login");},1000);
+       toast.success("Account Has Been Created!");
      }
     } catch (error) {
       toast.error("Account Already Registered!");
@@ -79,7 +79,7 @@ export default function SignUp() {
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
             backgroundPosition: 'left',
-            filter: 'blur(2px)',
+            filter: 'blur(1px)',
             transition: 'background-image 0.3s ease-in-out',
           }}
         />

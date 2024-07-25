@@ -14,7 +14,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import 'react-toastify/dist/ReactToastify.css';
 import Copyright from '../common/copyRight.tsx';
-import { loginUser } from '../../utils/axiosInstance.ts';
+import { loginUser } from '../../utils/user_service/user_api.ts';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from '@mui/material';
 import { toast } from 'react-toastify';
@@ -38,9 +38,11 @@ export default function SignIn() {
     const response =  await loginUser(data);
     if(response.status==200){
       const token = response["data"]["token"] || null;
-      toast.success("Logged In Successfully!");
       localStorage.setItem('jwtToken', token);
-      navigate("/dashboard");
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1000);
+      toast.success("Logged In Successfully!");
     }
     } catch (error) {
       toast.error("Invalid Credentials");
@@ -68,7 +70,7 @@ export default function SignIn() {
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
             backgroundPosition: 'left',
-            filter: 'blur(2px)',
+            filter: 'blur(1px)',
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
