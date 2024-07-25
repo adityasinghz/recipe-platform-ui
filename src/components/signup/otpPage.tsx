@@ -2,7 +2,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -17,11 +16,10 @@ import Copyright from '../common/copyRight.tsx';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from '@mui/material';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { registerUser } from '../../utils/user_service/user_api.ts';
-import { log } from 'console';
+import { useEffect, useState } from 'react';
+
 const schema = z.object({
-    secret_key: z.string().length(6, 'Secret key must be 6 digits'),
+  secret_key: z.string().length(6, 'Secret key must be 6 digits'),
 });
 
 type FormInputs = z.infer<typeof schema>;
@@ -32,16 +30,45 @@ export default function SignIn() {
     mode: 'onChange',
   });
   const navigate = useNavigate();
-  const onSubmit: SubmitHandler<FormInputs> = async data => {
-    console.log("data ", data);
-    const userData = localStorage.getItem('userData');
-    console.log("userData ",userData);
+  const [resendDisabled, setResendDisabled] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<number>(0);
+
+  useEffect(() => {
+    const justRegistered = sessionStorage.getItem('justRegistered');
+    if (!justRegistered) navigate('/'); // Redirect if not accessing via registration flow
+  }, [navigate]);
+
+  const handleResend = async () => {
+    setResendDisabled(true);
+    setTimeLeft(60); // 60 seconds countdown
+
+    // Implement your resend logic here
+    // await resendOtp();
+
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          setResendDisabled(false); // Re-enable button
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000); // Update every second
+  };
+
+  const onSubmit: SubmitHandler<FormInputs> = async otp => {
+    console.log("data ", otp);
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    console.log("userData ", userData);
     try {
-    //const response =  await verifyOTP(data) || undefined;
-    //if(response.status==200){}
-    // await registerUser(userData);
+      // const response = await verifyOTP(otp);
+      // if (response.status === 200) {}
+      // await registerUser(userData);
       setTimeout(() => {
         navigate("/login");
+        sessionStorage.removeItem('justRegistered');
+        localStorage.removeItem('userData');
       }, 1000);
       toast.success("Verification Completed!");
     } catch (error) {
@@ -53,6 +80,7 @@ export default function SignIn() {
   const handleBlur = async (field: keyof FormInputs) => {
     await trigger(field);
   };
+
   const theme = useTheme();
   return (
     <ThemeProvider theme={theme}>
@@ -106,18 +134,21 @@ export default function SignIn() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 1 }}
                 disabled={!isValid}
               >
-                Sign In
+                Validate OTP
               </Button>
-              <Grid container>
-               <Grid item xs={12} sm={12} sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-                <Link href="/login" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-              </Grid>
+              <Button
+                type="button"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 1, mb: 2 }}
+                disabled={resendDisabled}
+                onClick={handleResend}
+              >
+                {resendDisabled ? `Resend in ${timeLeft}s` : 'Resend'}
+              </Button>
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>

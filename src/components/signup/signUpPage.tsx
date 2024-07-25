@@ -35,7 +35,6 @@ export default function SignUp() {
   const navigate = useNavigate();
   const [country, setCountry] = useState<string>("India");
   const options = useMemo(() => countryList().getData(), []);
-
   const handleBlur = async (field: keyof FormInputs) => {
     await trigger(field);
   };
@@ -45,12 +44,15 @@ export default function SignUp() {
   const onSubmit = async (data: any) => {
     data["country"] = country;
     delete data["confirm_password"];
-    localStorage.setItem('userData', data);
+    localStorage.setItem('userData', JSON.stringify(data));
+    sessionStorage.setItem('justRegistered', 'true');
+    console.log(localStorage.getItem('userData'));
+    //sessionStorage.setItem('justRegistered', 'true');
     try {
     //  const response =  await sentOTP(email);
     //  if(response.status==201){// }
     setTimeout(()=>{navigate('/verification');},1000);
-    toast.success("Account Has Been Created!");
+    toast.success("OTP Has Been Sent!");
     } catch (error) {
       toast.error("Account Already Registered!");
       console.error("Error registering user:", error);

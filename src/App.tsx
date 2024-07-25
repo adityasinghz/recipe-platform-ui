@@ -10,7 +10,6 @@ import AuthenticatedRoute from './components/common/AuthenticatedRoute.tsx';
 import { ToastContainer } from 'react-toastify';
 import SomeComponent from './components/common/test.tsx';
 import OtpPage from './components/signup/otpPage.tsx';
-
 const routes = createBrowserRouter([
   {
     path: "/",
