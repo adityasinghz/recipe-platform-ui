@@ -9,6 +9,7 @@ import ProtectedRoute from './components/common/ProtectedRoute.tsx';
 import AuthenticatedRoute from './components/common/AuthenticatedRoute.tsx';
 import { ToastContainer } from 'react-toastify';
 import SomeComponent from './components/common/test.tsx';
+import OtpPage from './components/signup/otpPage.tsx';
 
 const routes = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const routes = createBrowserRouter([
   {
     path: '/test',
     element: <SomeComponent key="test" />
+  },
+  {
+    path:'/verification',
+    element: <OtpPage/>
   }
 ]);
 

@@ -5,11 +5,9 @@ import { useForm } from 'react-hook-form';
 import Copyright from '../common/copyRight.tsx';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import InputFileUpload from './uploadButton.tsx';
 import { useState,useMemo } from 'react';
 import countryList from 'react-select-country-list';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { registerUser } from '../../utils/user_service/user_api.ts';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { useTheme } from '@mui/material';
@@ -35,7 +33,6 @@ export default function SignUp() {
     mode: 'onChange',
   });
   const navigate = useNavigate();
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [country, setCountry] = useState<string>("India");
   const options = useMemo(() => countryList().getData(), []);
 
@@ -48,14 +45,12 @@ export default function SignUp() {
   const onSubmit = async (data: any) => {
     data["country"] = country;
     delete data["confirm_password"];
-    console.log("data ",data);
-    //data["imageUrl"] = selectedImage || '';
+    localStorage.setItem('userData', data);
     try {
-     const response =  await registerUser(data);
-     if(response.status==201){
-       setTimeout(()=>{navigate("/login");},1000);
-       toast.success("Account Has Been Created!");
-     }
+    //  const response =  await sentOTP(email);
+    //  if(response.status==201){// }
+    setTimeout(()=>{navigate('/verification');},1000);
+    toast.success("Account Has Been Created!");
     } catch (error) {
       toast.error("Account Already Registered!");
       console.error("Error registering user:", error);
@@ -92,29 +87,15 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
-        {selectedImage ? (
-        <Box mt={2}>
-         <Avatar src={selectedImage} alt="Uploaded" sx={{ width: 50, height: 50 }}/>
-        </Box>
-        ) : (
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main', width: 50, height: 50 }}>
-          <HowToRegIcon />
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.main', width: 50, height: 50,fontSize:'large' }}>
+       <HowToRegIcon />
         </Avatar>
-        )}
-          
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
+        <Typography component="h1" variant="h5">
+          Sign Up
+        </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
-            <Grid container spacing={2} sx={{display:'flex', justifyContent:'center', alignItems:'center', padding:2}}>
-            <Grid item xs={12} md={12} sx={{display:'flex',justifyContent:'center', alignItems:'center'}}>
-                <InputFileUpload 
-                  selectedImage={selectedImage}
-                  setSelectedImage={setSelectedImage}
-                />
-              </Grid>
-              <Grid item xs={12} sm={12}></Grid>
-              <Grid item xs={12} sm={6}>
+            <Grid container spacing={2} sx={{justifyContent:'center', alignItems:'center', padding:2}}>
+                <Grid item xs={12} sm={6}>
                 <TextField
                   {...register('firstName', { required: true })}
                   autoComplete="given-name"
@@ -218,6 +199,7 @@ export default function SignUp() {
               </Grid>
             </Grid>
           </Box>
+        
         </Box>
         <Copyright sx={{ mt: 3 }} />
         </Grid>
