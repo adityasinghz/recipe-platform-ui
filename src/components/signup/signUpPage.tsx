@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import { useTheme } from '@mui/material';
 import 'react-toastify/dist/ReactToastify.css';
 import AnimatedPage from '../common/AnimatedPage.tsx';
+import { sentOTP } from '../../utils/user_service/user_api.ts';
 
 const schema = z.object({
   firstName: z.string().min(3, 'First name must be 3 characters long'),
@@ -47,13 +48,12 @@ export default function SignUp() {
     delete data["confirm_password"];
     localStorage.setItem('userData', JSON.stringify(data));
     sessionStorage.setItem('justRegistered', 'true');
-    console.log(localStorage.getItem('userData'));
-    //sessionStorage.setItem('justRegistered', 'true');
     try {
-    //  const response =  await sentOTP(email);
-    //  if(response.status==201){// }
+    const response =  await sentOTP(data);
+    if(response.status==200){
     setTimeout(()=>{navigate('/verification');},1000);
     toast.success("OTP Has Been Sent!");
+    }
     } catch (error) {
       toast.error("Account Already Registered!");
       console.error("Error registering user:", error);

@@ -18,6 +18,8 @@ import { useTheme } from '@mui/material';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import AnimatedPage from '../common/AnimatedPage.tsx';
+import { sentOTP, verifyOTP, registerUser } from '../../utils/user_service/user_api.ts';
+
 
 const schema = z.object({
   secret_key: z.string().length(6, 'Secret key must be 6 digits'),
@@ -33,6 +35,7 @@ export default function SignIn() {
   const navigate = useNavigate();
   const [resendDisabled, setResendDisabled] = useState(false);
   const [timeLeft, setTimeLeft] = useState<number>(0);
+  const userData = JSON.parse(localStorage.getItem('userData') || '{}');
 
   useEffect(() => {
     const justRegistered = sessionStorage.getItem('justRegistered');
@@ -41,30 +44,29 @@ export default function SignIn() {
 
   const handleResend = async () => {
     setResendDisabled(true);
-    setTimeLeft(60); // 60 seconds countdown
-
-    // Implement your resend logic here
-    // await resendOtp();
-
+    setTimeLeft(60);
+    const response =  await sentOTP(userData);
+    if(response.status==200){
+    toast.success("OTP Sent");
     const timer = setInterval(() => {
       setTimeLeft(prev => {
         if (prev <= 1) {
           clearInterval(timer);
-          setResendDisabled(false); // Re-enable button
+          setResendDisabled(false);
           return 0;
         }
         return prev - 1;
       });
     }, 1000); // Update every second
+  }
   };
 
   const onSubmit: SubmitHandler<FormInputs> = async otp => {
-    console.log("data ", otp);
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    console.log("userData ", userData);
+    
+    console.log("userData ", userData, " otp ",otp);
     try {
-      // const response = await verifyOTP(otp);
-      // if (response.status === 200) {// await registerUser(userData);}
+      const response = await verifyOTP(otp,userData);
+      if (response.status === 200) {await registerUser(userData);}
       setTimeout(() => {
         navigate("/login");
         sessionStorage.removeItem('justRegistered');
