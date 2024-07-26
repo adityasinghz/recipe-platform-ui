@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from '@mui/material';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
+import AnimatedPage from '../common/AnimatedPage.tsx';
 
 const schema = z.object({
   secret_key: z.string().length(6, 'Secret key must be 6 digits'),
@@ -63,8 +64,7 @@ export default function SignIn() {
     console.log("userData ", userData);
     try {
       // const response = await verifyOTP(otp);
-      // if (response.status === 200) {}
-      // await registerUser(userData);
+      // if (response.status === 200) {// await registerUser(userData);}
       setTimeout(() => {
         navigate("/login");
         sessionStorage.removeItem('justRegistered');
@@ -83,7 +83,8 @@ export default function SignIn() {
 
   const theme = useTheme();
   return (
-    <ThemeProvider theme={theme}>
+    <AnimatedPage>
+      <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -155,5 +156,7 @@ export default function SignIn() {
         </Grid>
       </Grid>
     </ThemeProvider>
+    </AnimatedPage>
+    
   );
 }

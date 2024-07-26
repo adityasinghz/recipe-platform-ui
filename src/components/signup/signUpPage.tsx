@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { useTheme } from '@mui/material';
 import 'react-toastify/dist/ReactToastify.css';
+import AnimatedPage from '../common/AnimatedPage.tsx';
 
 const schema = z.object({
   firstName: z.string().min(3, 'First name must be 3 characters long'),
@@ -60,7 +61,8 @@ export default function SignUp() {
   };
   const theme = useTheme();
   return (
-    <ThemeProvider theme={theme}>
+    <AnimatedPage>
+       <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -207,6 +209,8 @@ export default function SignUp() {
         </Grid>
       </Grid>
     </ThemeProvider>
+    </AnimatedPage>
+   
   );
 }
 

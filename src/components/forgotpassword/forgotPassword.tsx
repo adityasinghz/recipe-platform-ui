@@ -14,6 +14,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Copyright from '../common/copyRight';
 import { useTheme } from '@mui/material';
+import AnimatedPage from '../common/AnimatedPage';
 
 
 const schema = z.object({
@@ -97,7 +98,8 @@ export default function ForgotPassword() {
   };
  const theme  = useTheme();
   return (
-    <ThemeProvider theme={theme}>
+    <AnimatedPage>
+      <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -212,5 +214,7 @@ export default function ForgotPassword() {
         </Grid>
       </Grid>
     </ThemeProvider>
+    </AnimatedPage>
+    
   );
 }

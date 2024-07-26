@@ -24,6 +24,7 @@ import RecipeReviewCard from './recipeCard';
 import Cuisines from './countryCuisines';
 import SubmitRecipe from './submitRecipe';
 import DashboardSkeleton from './dashboardSkeleton';
+import AnimatedPage from '../common/AnimatedPage';
 
 
 const drawerWidth = 240;
@@ -112,7 +113,9 @@ export default function DashBoard() {
       {/*FAV API*/}
   }
   return (
-  data ? (<Box sx={{ display: 'flex' }}>
+  (data || []) ? (
+    <AnimatedPage>
+  <Box sx={{ display: 'flex' }}>
     <CssBaseline />
     <CustomAppBar open={open} isSubmit={isSubmit} handleDrawerOpen={handleDrawerOpen} />
     <Drawer variant="permanent" open={open}>
@@ -221,7 +224,5 @@ export default function DashBoard() {
        </Grid>
     </Box>
     <SubmitRecipe addItem={dialogOpen} setItem={setDialogOpen} />
-  </Box>) : (<DashboardSkeleton/>)
- 
-  );
+  </Box></AnimatedPage>) : (<DashboardSkeleton/>));
 }
