@@ -19,7 +19,10 @@ const schema = z.object({
   firstName: z.string().min(3, 'First name must be 3 characters long'),
   lastName: z.string().min(3,'Last name must be 3 characters long'),
   email: z.string().email('Invalid email address').min(1),
-  password: z.string().min(8, 'Password must be at least 8 characters long'),
+  password: z.string().min(8, 'Password must be at least 8 characters long')
+  .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+  .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+  .regex(/[!@#$%^&*(),.?":{}|<>]/, 'Password must contain at least one special character'),
   confirm_password: z.string(),
 }).refine((data) => data.password === data.confirm_password, {
   path: ['confirm_password'],
@@ -45,9 +48,9 @@ export default function SignUp() {
   };
   const onSubmit = async (data: any) => {
     data["country"] = country;
-    delete data["confirm_password"];
     localStorage.setItem('userData', JSON.stringify(data));
     sessionStorage.setItem('justRegistered', 'true');
+    toast.warn("OTP Is On The Way!");
     try {
     const response =  await sentOTP(data);
     if(response.status==200){
@@ -210,23 +213,5 @@ export default function SignUp() {
       </Grid>
     </ThemeProvider>
     </AnimatedPage>
-   
   );
 }
-
-/*
-
-{
-    "firstName": "John",
-    "lastName": "Doe",
-    "email": "john.doe@example.com",
-    "password": "$2a$10$/T7bVznNjzbcgMpdjsfxvuONT.C9mDh8qdZ8Ay5P6j2QKy/JB3TbC",
-    "confirmPassword": "$2a$10$Ge9x.oj6ewrvi5vYHpk/tuMuAZPqiHp5vshtDEfi2/pIZObcqbxXy",
-    "country": "United States",
-    "region": "California",
-    "imageUrl": "http://example.com/profile-picture.jpg"
-}
-
-
-
-*/

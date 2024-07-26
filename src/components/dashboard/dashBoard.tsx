@@ -88,6 +88,7 @@ export default function DashBoard() {
 
   const handleDrawerOpen = () => {
     setOpen(true);
+    setData([]);
   };
 
   const handleDrawerClose = () => {

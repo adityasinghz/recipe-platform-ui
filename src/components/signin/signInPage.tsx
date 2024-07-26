@@ -47,7 +47,7 @@ export default function SignIn() {
     }
     } catch (error) {
       toast.error("Invalid Credentials");
-      console.error("Error Logging user:", error);
+      console.error("Error Loggin user:", error);
     }
   };
 

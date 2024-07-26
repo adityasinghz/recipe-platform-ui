@@ -46,8 +46,7 @@ export default function SignIn() {
     setResendDisabled(true);
     setTimeLeft(60);
     const response =  await sentOTP(userData);
-    if(response.status==200){
-    toast.success("OTP Sent");
+    if(response.status==200) toast.success("OTP Has Been Sent!");
     const timer = setInterval(() => {
       setTimeLeft(prev => {
         if (prev <= 1) {
@@ -58,14 +57,12 @@ export default function SignIn() {
         return prev - 1;
       });
     }, 1000); // Update every second
-  }
   };
 
   const onSubmit: SubmitHandler<FormInputs> = async otp => {
-    
-    console.log("userData ", userData, " otp ",otp);
+    userData['otp'] = Number(otp['secret_key']);
     try {
-      const response = await verifyOTP(otp,userData);
+      const response = await verifyOTP(userData);
       if (response.status === 200) {await registerUser(userData);}
       setTimeout(() => {
         navigate("/login");

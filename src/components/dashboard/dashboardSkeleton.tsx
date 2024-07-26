@@ -23,13 +23,13 @@ export default function DashboardSkeleton() {
           <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <Grid container spacing={6}>
             {Array(6).fill(0).map((_, index) => (
-                <Grid key={index} item xs={12} md={2} lg={2}>
-                <Skeleton variant="circular" width={200} height={200} />
+                <Grid item xs={12} md={2} lg={2}>
+                <Skeleton variant="circular" width={200} height={200} key={index}/>
                 </Grid>
             ))}
             {Array(8).fill(0).map((_, index) => (
                 <Grid item xs={12} md={3} lg={3}>
-                <Skeleton variant="rectangular" width={250} height={300} />
+                <Skeleton variant="rectangular" width={250} height={300} key={index} />
               </Grid>
               ))}
               
