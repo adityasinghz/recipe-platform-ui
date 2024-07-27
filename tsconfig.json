@@ -3,6 +3,7 @@
     "types": ["vitest/globals"]
   },
   "files": [],
+  "include": [".src/__test__/setup.ts"],
   "references": [
     {
       "path": "./tsconfig.app.json"

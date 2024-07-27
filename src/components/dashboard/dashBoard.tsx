@@ -80,7 +80,6 @@ export default function DashBoard() {
   const theme = useTheme();
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [data, setData] = React.useState<(string | number)[]>([]);
-  console.log("data ",data);
   const navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
