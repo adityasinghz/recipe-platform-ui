@@ -17,9 +17,10 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Grid, CssBaseline, Box, Paper, FormControl, InputLabel, FormHelperText } from '@mui/material';
 import InputFileUpload from './uploadButton';
 import { createRecipe } from '../../utils/recipe_service/recipe';
+import countryList from 'react-select-country-list';
 import { toast } from 'react-toastify';
 
-// Define the transition for the dialog
+
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -29,7 +30,7 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-// Define the validation schema using Zod
+
 const schema = z.object({
   recipeName: z
     .string()
@@ -61,6 +62,7 @@ export default function SubmitRecipe({ addItem, setItem }: CreateRecipeProps) {
 
   const [selectedImage, setSelectedImage] = React.useState<File | null>(null);
   const [imagePreview, setImagePreview] = React.useState<string | null>(null);
+  const options = React.useMemo(() => countryList().getData(), []);
 
   React.useEffect(() => {
     if (selectedImage) {
@@ -206,15 +208,22 @@ export default function SubmitRecipe({ addItem, setItem }: CreateRecipeProps) {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    label="Cuisine"
-                    {...register('cuisine')}
-                    error={!!errors.cuisine}
-                    helperText={errors.cuisine ? errors.cuisine.message : ''}
-                  />
+                  <FormControl fullWidth margin="normal" required error={!!errors.category}>
+                    <InputLabel>Cuisine</InputLabel>
+                    <Select
+                      {...register('cuisine')}
+                      defaultValue=""
+                      label="Cuisine"
+                      renderValue={(selected) => selected || 'Select a category'}
+                    >
+                       {options.map((option:any) => (
+                        <MenuItem key={option.value} value={option.label}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    <FormHelperText>{errors.category ? errors.category.message : ''}</FormHelperText>
+                  </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
                   <TextField
