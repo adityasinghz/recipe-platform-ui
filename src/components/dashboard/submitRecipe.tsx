@@ -88,7 +88,7 @@ export default function SubmitRecipe({ addItem, setItem }: CreateRecipeProps) {
       toast.success("Your Recipe Has Been Created!");
       handleClose();
     } catch (error) {
-      toast.error("Invalid Details");
+      toast.error("Image Is Required / Image Too large!");
       console.error("Cannot Create:", error);
     }
   };
@@ -161,7 +161,7 @@ export default function SubmitRecipe({ addItem, setItem }: CreateRecipeProps) {
               />
             )}
           </Grid>
-          <Grid item xs={12} sm={6} md={6} component={Paper} elevation={6} square sx={{height:'100vh'}}>
+          <Grid item xs={12} sm={6} md={6} component={Paper} sx={{height:'100vh'}}>
             <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
               <Grid container spacing={3} sx={{ p: 2, justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
                 <Grid item xs={12} sm={4} md={4}>
@@ -216,8 +216,8 @@ export default function SubmitRecipe({ addItem, setItem }: CreateRecipeProps) {
                       label="Cuisine"
                       renderValue={(selected) => selected || 'Select a category'}
                     >
-                       {options.map((option:any) => (
-                        <MenuItem key={option.value} value={option.label}>
+                       {options.map((option:any,index) => (
+                        <MenuItem key={index} value={option.label}>
                           {option.label}
                         </MenuItem>
                       ))}
