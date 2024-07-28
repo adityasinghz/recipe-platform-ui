@@ -204,9 +204,9 @@ export default function SubmitRecipe({ addItem, setItem }: CreateRecipeProps) {
                       label="Category"
                       renderValue={(selected) => selected || 'Select a category'}
                     >
-                      <MenuItem value="appetizer">Appetizer</MenuItem>
-                      <MenuItem value="main">Main Course</MenuItem>
-                      <MenuItem value="dessert">Dessert</MenuItem>
+                      <MenuItem value="Appetizer">Appetizer</MenuItem>
+                      <MenuItem value="Main Course">Main Course</MenuItem>
+                      <MenuItem value="Dessert">Dessert</MenuItem>
                     </Select>
                     <FormHelperText>{errors.category ? errors.category.message : ''}</FormHelperText>
                   </FormControl>
