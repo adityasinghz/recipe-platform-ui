@@ -93,6 +93,10 @@ export default function SubmitRecipe({ addItem, setItem }: CreateRecipeProps) {
     }
   };
 
+  const handleImage = () =>{
+    setSelectedImage(null)
+  }
+
   const handleClose = () => {
     reset(); // Reset form fields
     setSelectedImage(null); // Clear image selection
@@ -300,6 +304,7 @@ export default function SubmitRecipe({ addItem, setItem }: CreateRecipeProps) {
                     rows={4}
                   />
                 </Grid>
+                <Grid item xs={12} sm={6} md={12}><Button variant="outlined" color="error" onClick={handleImage}>Remove Image</Button></Grid>
               </Grid>
             </Box>
           </Grid>
