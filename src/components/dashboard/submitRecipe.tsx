@@ -88,7 +88,7 @@ export default function SubmitRecipe({ addItem, setItem }: CreateRecipeProps) {
       toast.success("Your Recipe Has Been Created!");
       handleClose();
     } catch (error) {
-      toast.error("Image Is Required / Image Too large!");
+      toast.error("Image Is Required < ( 65KB )");
       console.error("Cannot Create:", error);
     }
   };

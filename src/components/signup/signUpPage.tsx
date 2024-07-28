@@ -138,6 +138,7 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   error={!!errors.email}
+                  data-testid="email-address"
                   onBlur={() => handleBlur('email')}
                   autoComplete="email"
                   helperText={errors.email?.message}
@@ -152,6 +153,7 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
+                  data-testid="password-field"
                   onBlur={() => handleBlur('password')}
                   error={!!errors.password}
                   helperText={errors.password?.message}
@@ -182,6 +184,7 @@ export default function SignUp() {
                   fullWidth
                   name="confirm_password"
                   label="Confirm Password"
+                  data-testid="confirm-password-field"
                   type="password"
                   id="confirm_password"
                   onBlur={() => handleBlur('confirm_password')}

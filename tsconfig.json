@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals", "jest"]
   },
   "files": [],
   "include": [".src/__test__/setup.ts"],
