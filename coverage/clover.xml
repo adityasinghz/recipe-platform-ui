@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1722258843948" clover="3.2.0">
-  <project timestamp="1722258843948" name="All files">
-    <metrics statements="2281" coveredstatements="351" conditionals="44" coveredconditionals="21" methods="42" coveredmethods="11" elements="2367" coveredelements="383" complexity="0" loc="2281" ncloc="2281" packages="9" files="24" classes="24"/>
+<coverage generated="1722263761616" clover="3.2.0">
+  <project timestamp="1722263761616" name="All files">
+    <metrics statements="2289" coveredstatements="351" conditionals="44" coveredconditionals="21" methods="42" coveredmethods="11" elements="2375" coveredelements="383" complexity="0" loc="2289" ncloc="2289" packages="9" files="24" classes="24"/>
     <package name="src">
       <metrics statements="94" coveredstatements="0" conditionals="3" coveredconditionals="0" methods="3" coveredmethods="0"/>
       <file name="App.tsx" path="C:\Assignments\recipe-platform-ui\src\App.tsx">
@@ -412,7 +412,7 @@
       </file>
     </package>
     <package name="src.components.dashboard">
-      <metrics statements="1127" coveredstatements="0" conditionals="7" coveredconditionals="0" methods="7" coveredmethods="0"/>
+      <metrics statements="1135" coveredstatements="0" conditionals="7" coveredconditionals="0" methods="7" coveredmethods="0"/>
       <file name="countryCuisines.tsx" path="C:\Assignments\recipe-platform-ui\src\components\dashboard\countryCuisines.tsx">
         <metrics statements="111" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
@@ -795,7 +795,7 @@
         <line num="42" count="0" type="stmt"/>
       </file>
       <file name="recipeCard.tsx" path="C:\Assignments\recipe-platform-ui\src\components\dashboard\recipeCard.tsx">
-        <metrics statements="103" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="112" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
@@ -898,7 +898,16 @@
         <line num="131" count="0" type="stmt"/>
         <line num="132" count="0" type="stmt"/>
         <line num="133" count="0" type="stmt"/>
+        <line num="134" count="0" type="stmt"/>
         <line num="135" count="0" type="stmt"/>
+        <line num="136" count="0" type="stmt"/>
+        <line num="137" count="0" type="stmt"/>
+        <line num="138" count="0" type="stmt"/>
+        <line num="139" count="0" type="stmt"/>
+        <line num="140" count="0" type="stmt"/>
+        <line num="141" count="0" type="stmt"/>
+        <line num="142" count="0" type="stmt"/>
+        <line num="144" count="0" type="stmt"/>
       </file>
       <file name="submitRecipe.tsx" path="C:\Assignments\recipe-platform-ui\src\components\dashboard\submitRecipe.tsx">
         <metrics statements="283" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
@@ -1187,7 +1196,7 @@
         <line num="317" count="0" type="stmt"/>
       </file>
       <file name="updateRecipe.tsx" path="C:\Assignments\recipe-platform-ui\src\components\dashboard\updateRecipe.tsx">
-        <metrics statements="332" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="331" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
@@ -1294,14 +1303,13 @@
         <line num="137" count="0" type="stmt"/>
         <line num="138" count="0" type="stmt"/>
         <line num="139" count="0" type="stmt"/>
+        <line num="140" count="0" type="stmt"/>
         <line num="141" count="0" type="stmt"/>
-        <line num="142" count="0" type="stmt"/>
         <line num="143" count="0" type="stmt"/>
         <line num="144" count="0" type="stmt"/>
+        <line num="145" count="0" type="stmt"/>
         <line num="146" count="0" type="stmt"/>
-        <line num="147" count="0" type="stmt"/>
         <line num="148" count="0" type="stmt"/>
-        <line num="149" count="0" type="stmt"/>
         <line num="150" count="0" type="stmt"/>
         <line num="151" count="0" type="stmt"/>
         <line num="155" count="0" type="stmt"/>
