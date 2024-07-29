@@ -27,7 +27,7 @@ const schema = z.object({
 
 type FormInputs = z.infer<typeof schema>;
 
-export default function SignIn() {
+export default function OtpPage() {
   const { register, handleSubmit, formState: { errors, isValid }, trigger } = useForm<FormInputs>({
     resolver: zodResolver(schema),
     mode: 'onChange',

@@ -13,13 +13,12 @@ import { TransitionProps } from '@mui/material/transitions';
 import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Grid, CssBaseline, Box, Paper, FormControl, InputLabel, FormHelperText } from '@mui/material';
 import InputFileUpload from './uploadButton';
-import { createRecipe } from '../../utils/recipe_service/recipe';
 import countryList from 'react-select-country-list';
 import { toast } from 'react-toastify';
-
+import { updateRecipe } from '../../utils/recipe_service/recipe';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -30,7 +29,6 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-
 const schema = z.object({
   recipeName: z
     .string()
@@ -38,8 +36,8 @@ const schema = z.object({
     .refine(name => /^[a-zA-Z\s]*$/g.test(name), 'Name should not contain numbers'),
   recipeDescription: z.string().min(50, 'Description should contain at least 50 characters'),
   cuisine: z.string().min(1, 'Cuisine is required'),
-  tags: z.array(z.string()).min(1, 'At least one tag is required'),
-  ingredients: z.array(z.string()).min(1, 'At least one ingredient is required'),
+  tags: z.array(z.string()).nonempty('At least one tag is required'),
+  ingredients: z.array(z.string()).nonempty('At least one ingredient is required'),
   cookingTime: z.number().min(1, 'Cooking time is required'),
   difficulty: z.string().min(1, 'Difficulty level is required'),
   dietaryRestrictions: z.string().min(1, 'Dietary restrictions are required'),
@@ -49,20 +47,54 @@ const schema = z.object({
 
 type FormInputs = z.infer<typeof schema>;
 
-interface CreateRecipeProps {
-  addItem: boolean;
-  setItem: (value: boolean) => void;
+interface UpdateRecipeProps {
+  addItem: boolean; // Controls whether the dialog is open or not
+  setItem: React.Dispatch<React.SetStateAction<boolean>>; // Function to change the dialog state
+  recipe: {
+    recipeId: string;
+    imageToken: string;
+    recipeName: string;
+    cuisine: string;
+    recipeDescription: string;
+    category: string;
+    cookingTime: number;
+    dietaryRestrictions: string;
+    difficulty: string;
+    ingredients: string[]; // Changed from any to string[]
+    tags: string[]; // Changed from any to string[]
+  };
+  fetchData: () => void; // Function to refresh the recipe list
 }
 
-export default function SubmitRecipe({ addItem, setItem }: CreateRecipeProps) {
-  const { register, handleSubmit, formState: { errors, isValid }, reset } = useForm<FormInputs>({
+export default function UpdateRecipe({ addItem, setItem, recipe, fetchData }: UpdateRecipeProps) {
+  const { control, register, handleSubmit, formState: { errors }, reset } = useForm<FormInputs>({
     resolver: zodResolver(schema),
-    mode: 'onChange',
+    mode: 'onBlur',
   });
 
   const [selectedImage, setSelectedImage] = React.useState<File | null>(null);
   const [imagePreview, setImagePreview] = React.useState<string | null>(null);
   const options = React.useMemo(() => countryList().getData(), []);
+
+  React.useEffect(() => {
+    if (recipe) {
+      reset({
+        recipeName: recipe.recipeName,
+        recipeDescription: recipe.recipeDescription,
+        cuisine: recipe.cuisine,
+        tags: recipe.tags || [],
+        ingredients: recipe.ingredients || [],
+        cookingTime: recipe.cookingTime,
+        difficulty: recipe.difficulty,
+        dietaryRestrictions: recipe.dietaryRestrictions,
+        category: recipe.category,
+        imageToken: recipe.imageToken || '',
+      });
+      if (recipe.imageToken) {
+        fetchImageAsFile(recipe.imageToken); // Use URL directly if provided
+      }
+    }
+  }, [recipe, reset]);
 
   React.useEffect(() => {
     if (selectedImage) {
@@ -72,39 +104,53 @@ export default function SubmitRecipe({ addItem, setItem }: CreateRecipeProps) {
       };
       reader.readAsDataURL(selectedImage);
     } else {
-      setImagePreview(null);
+      setImagePreview(null); // Clear preview if no image is selected
     }
   }, [selectedImage]);
+  
+  const fetchImageAsFile = async (imageToken: string) => {
+    try {
+      const response = await fetch(imageToken); // Use the image token as URL
+      const blob = await response.blob();
+      const file = new File([blob], 'image.jpg', { type: blob.type });
+      setSelectedImage(file);
+      setImagePreview(URL.createObjectURL(file));
+    } catch (error) {
+      console.error('Error fetching image:', error);
+    }
+  };
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     const formDataWithImageToken = {
       recipe: data,
       image: selectedImage, // Use imagePreview or adjust as needed
     };
-    // Handle form submission with the image
+
     console.log("formDataWithImageToken ",formDataWithImageToken);
     try {
-      await createRecipe(formDataWithImageToken); // Update to handle formData
-      toast.success("Your Recipe Has Been Created!");
+      const response = await updateRecipe(recipe.recipeId, formDataWithImageToken); // Adjust this based on your API
+      if(response.status==200){
+      toast.success("Your Recipe Has Been Updated!");
+      fetchData();
       handleClose();
+      }
     } catch (error) {
-      toast.error("Image Is Required");
-      console.error("Cannot Create:", error);
+      toast.error("Failed to update recipe");
+      console.error("Cannot Update:", error);
     }
   };
 
-  const handleImage = () =>{
-    setSelectedImage(null)
+  const handleImage = () => {
+    setSelectedImage(null);
+    setImagePreview(null);
   }
 
   const handleClose = () => {
-    reset(); // Reset form fields
-    setSelectedImage(null); // Clear image selection
-    setImagePreview(null); // Clear image preview
+    //reset(); // Reset form fields
     setItem(false); // Close dialog
   };
 
-  console.log("recipe ",selectedImage);
+  //console.log("recipe ",recipe, "isValid ",isValid);
 
   return (
     <React.Fragment>
@@ -125,15 +171,15 @@ export default function SubmitRecipe({ addItem, setItem }: CreateRecipeProps) {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Add Your Recipe
+              Update Your Recipe
             </Typography>
             <Button
               type="submit"
               color="inherit"
               onClick={handleSubmit(onSubmit)}
-              disabled={!isValid}
+              //disabled={!isValid}
             >
-              Save
+              Update
             </Button>
           </Toolbar>
         </AppBar>
@@ -184,51 +230,66 @@ export default function SubmitRecipe({ addItem, setItem }: CreateRecipeProps) {
                 <Grid item xs={12} sm={6} md={4}>
                   <FormControl fullWidth margin="normal" required error={!!errors.difficulty}>
                     <InputLabel>Difficulty</InputLabel>
-                    <Select
-                      {...register('difficulty')}
-                      defaultValue=""
-                      label="Difficulty"
-                      renderValue={(selected) => selected || 'Select a Difficulty'}
-                    >
-                      <MenuItem value="Easy">Easy</MenuItem>
-                      <MenuItem value="Medium">Medium</MenuItem>
-                      <MenuItem value="Hard">Hard</MenuItem>
-                    </Select>
+                    <Controller
+                      name="difficulty"
+                      control={control}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          label="Difficulty"
+                          renderValue={(selected) => selected || 'Select a Difficulty'}
+                        >
+                          <MenuItem value="Easy">Easy</MenuItem>
+                          <MenuItem value="Medium">Medium</MenuItem>
+                          <MenuItem value="Hard">Hard</MenuItem>
+                        </Select>
+                      )}
+                    />
                     <FormHelperText>{errors.difficulty ? errors.difficulty.message : ''}</FormHelperText>
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
                   <FormControl fullWidth margin="normal" required error={!!errors.category}>
                     <InputLabel>Category</InputLabel>
-                    <Select
-                      {...register('category')}
-                      defaultValue=""
-                      label="Category"
-                      renderValue={(selected) => selected || 'Select a category'}
-                    >
-                      <MenuItem value="Appetizer">Appetizer</MenuItem>
-                      <MenuItem value="Main Course">Main Course</MenuItem>
-                      <MenuItem value="Dessert">Dessert</MenuItem>
-                    </Select>
+                    <Controller
+                      name="category"
+                      control={control}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          label="Category"
+                          renderValue={(selected) => selected || 'Select a category'}
+                        >
+                          <MenuItem value="Appetizer">Appetizer</MenuItem>
+                          <MenuItem value="Main Course">Main Course</MenuItem>
+                          <MenuItem value="Dessert">Dessert</MenuItem>
+                        </Select>
+                      )}
+                    />
                     <FormHelperText>{errors.category ? errors.category.message : ''}</FormHelperText>
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
-                  <FormControl fullWidth margin="normal" required error={!!errors.category}>
+                  <FormControl fullWidth margin="normal" required error={!!errors.cuisine}>
                     <InputLabel>Cuisine</InputLabel>
-                    <Select
-                      {...register('cuisine')}
-                      defaultValue=""
-                      label="Cuisine"
-                      renderValue={(selected) => selected || 'Select a category'}
-                    >
-                       {options.map((option:any,index) => (
-                        <MenuItem key={index} value={option.label}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                    <FormHelperText>{errors.category ? errors.category.message : ''}</FormHelperText>
+                    <Controller
+                      name="cuisine"
+                      control={control}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          label="Cuisine"
+                          renderValue={(selected) => selected || 'Select a cuisine'}
+                        >
+                          {options.map((option, index) => (
+                            <MenuItem key={index} value={option.label}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      )}
+                    />
+                    <FormHelperText>{errors.cuisine ? errors.cuisine.message : ''}</FormHelperText>
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
@@ -258,28 +319,32 @@ export default function SubmitRecipe({ addItem, setItem }: CreateRecipeProps) {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} md={6}>
-                  <TextField
+                <TextField
                     margin="normal"
                     required
                     fullWidth
+                    autoFocus
                     label="Tags (comma separated)"
                     {...register('tags', {
-                      setValueAs: (value: any) => {
-                        if (typeof value === 'string') {
-                          return value.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
-                        }
-                        return [];
-                      },
-                    })}
+                    setValueAs: (value: any) => {
+                      console.log("Tags value:", value);
+                    if (typeof value === 'string') {
+                        return value.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
+                    }
+                    return [];
+                    },
+                 })}
                     error={!!errors.tags}
                     helperText={errors.tags ? errors.tags.message : ''}
-                  />
+                />
+
                 </Grid>
                 <Grid item xs={12} sm={6} md={6}>
                   <TextField
                     margin="normal"
                     required
                     fullWidth
+                    autoFocus
                     label="Ingredients (comma separated)"
                     {...register('ingredients', {
                       setValueAs: (value: any) => {
@@ -306,7 +371,11 @@ export default function SubmitRecipe({ addItem, setItem }: CreateRecipeProps) {
                     rows={4}
                   />
                 </Grid>
-                {selectedImage?<Grid item xs={12} sm={6} md={12}><Button variant="outlined" color="error" onClick={handleImage}>Remove Image</Button></Grid>:<></>}
+                {selectedImage ? (
+                  <Grid item xs={12} sm={6} md={12}>
+                    <Button variant="outlined" color="error" onClick={handleImage}>Remove Image</Button>
+                  </Grid>
+                ) : null}
               </Grid>
             </Box>
           </Grid>

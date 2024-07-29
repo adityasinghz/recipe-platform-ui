@@ -1,4 +1,4 @@
-import { render, screen,fireEvent, waitFor } from '@testing-library/react';
+import { screen,fireEvent, waitFor, render } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import SignIn from '../../components/signin/signInPage';
 

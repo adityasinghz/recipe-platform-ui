@@ -25,6 +25,7 @@ import Cuisines from './countryCuisines';
 import SubmitRecipe from './submitRecipe';
 import DashboardSkeleton from './dashboardSkeleton';
 import AnimatedPage from '../common/AnimatedPage';
+import { getRecipes } from '../../utils/recipe_service/recipe';
 
 
 const drawerWidth = 240;
@@ -79,7 +80,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function DashBoard() {
   const theme = useTheme();
   const [dialogOpen, setDialogOpen] = React.useState(false);
-  const [data, setData] = React.useState<(string | number)[]>([]);
+  const [data, setData] = React.useState<(number)[]>([]);
   const navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
@@ -87,7 +88,6 @@ export default function DashBoard() {
 
   const handleDrawerOpen = () => {
     setOpen(true);
-    setData([]);
   };
 
   const handleDrawerClose = () => {
@@ -100,7 +100,7 @@ export default function DashBoard() {
       navigate('/');},1000);
       toast.error("Logged Out Successfully!");
   }
-  const handleSubmitRecipe =()=>{
+  const handleSubmitRecipe = async()=>{
       setSubmit(true);
       setDialogOpen(true);
   }
@@ -112,6 +112,19 @@ export default function DashBoard() {
       setSubmit(false);
       {/*FAV API*/}
   }
+  const fetchData = async () => {
+    try {
+      const response = await getRecipes();
+      setData(response["data"]) // Assuming `response` is the data you need
+    } catch (error) {
+      toast.error("Failed to fetch Recipes!");
+    }
+  };
+  React.useEffect(() => {
+    fetchData();
+  }, []); 
+  
+  console.log("data length : ",data.length);
   return (
   (data || []) ? (
     <AnimatedPage>
@@ -215,13 +228,19 @@ export default function DashBoard() {
       <DrawerHeader />
       {/* IS Submit? New UI : SameUI*/}
        <Grid container spacing={6}>
+          <Grid item xs={12} md={12} sm={12} lg={12} sx={{display:'flex'}}>
             <Cuisines/>
-            <Grid item xs={12} md={12} sm={12} lg={12}>
-               <Grid item xs={12} md={4} sm={4} lg={4}>
-                  <RecipeReviewCard/>
-              </Grid>
             </Grid>
-       </Grid>
+             {data.map((recipe: any, index: number) => (
+                  <Grid item xs={12} md={3} sm={3} lg={3} key={index}>
+                    <RecipeReviewCard 
+                     recipe={recipe}
+                     fetchData={fetchData}
+                    />
+                  </Grid>
+                ))}
+            </Grid>
+       
     </Box>
     <SubmitRecipe addItem={dialogOpen} setItem={setDialogOpen} />
   </Box></AnimatedPage>) : (<DashboardSkeleton/>));
