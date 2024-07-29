@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const url = import.meta.env.RECIPE_BASE_URL || 'http://localhost:8081';
+console.log("import.meta.env.RECIPE_BASE_URL ",import.meta.env.VITE_BASE_URL);
 
 export const createRecipe = async (recipeData: { recipe: object; image: any }) => {
     try {

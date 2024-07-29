@@ -1,23 +1,25 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { deleteRecipe } from '../../utils/recipe_service/recipe';
-import { toast } from 'react-toastify';
-import UpdateRecipe from './updateRecipe';
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Collapse from "@mui/material/Collapse";
+import Avatar from "@mui/material/Avatar";
+import IconButton, { IconButtonProps } from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import { red } from "@mui/material/colors";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { deleteRecipe } from "../../utils/recipe_service/recipe";
+import { toast } from "react-toastify";
+import UpdateRecipe from "./updateRecipe";
+import { Rating } from "@mui/material";
+import RamenDiningIcon from "@mui/icons-material/RamenDining";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -32,13 +34,13 @@ interface RecipeData {
     recipeDescription: string;
     category: string;
     cookingTime: number;
-    countOfRatings:number;
-    dietaryRestrictions:string;
-    difficulty:string;
-    ingredients:any;
+    countOfRatings: number;
+    dietaryRestrictions: string;
+    difficulty: string;
+    ingredients: any;
     ratings: number;
-    reviews:any;
-    tags:any;
+    reviews: any;
+    tags: any;
   };
   fetchData: () => void; // Add fetchData as a prop
 }
@@ -46,9 +48,9 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
+  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+  marginLeft: "auto",
+  transition: theme.transitions.create("transform", {
     duration: theme.transitions.duration.shortest,
   }),
 }));
@@ -72,20 +74,22 @@ export default function RecipeReviewCard({ recipe, fetchData }: RecipeData) {
   };
 
   const updateRecipe = async () => {
-      setDialogOpen(true);
+    setDialogOpen(true);
   };
   return (
     <Card sx={{ maxWidth: 280 }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={recipe.imageToken} />
+          <Avatar sx={{ bgcolor: "white" }} aria-label="recipe">
+            <RamenDiningIcon />
+          </Avatar>
         }
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />
           </IconButton>
         }
-        title={"Aditya Singh"}
+        title={"User"}
         subheader={"Chef"}
       />
       <CardMedia
@@ -96,18 +100,22 @@ export default function RecipeReviewCard({ recipe, fetchData }: RecipeData) {
       />
       <CardContent>
         <Typography variant="h6" color="text.secondary">
-          {recipe.recipeName}
+          {recipe.recipeName}{" "}
         </Typography>
+        <Rating name="read-only" value={recipe.ratings} readOnly />
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label="delete" onClick={() => handleDelete(recipe.recipeId)}>
+        <IconButton
+          aria-label="delete"
+          onClick={() => handleDelete(recipe.recipeId)}
+        >
           <DeleteIcon />
         </IconButton>
         <IconButton aria-label="edit" onClick={updateRecipe}>
-          <EditIcon/>
+          <EditIcon />
         </IconButton>
         <ExpandMore
           expand={expanded}
@@ -121,14 +129,11 @@ export default function RecipeReviewCard({ recipe, fetchData }: RecipeData) {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Recipe Description :</Typography>
+          <Typography paragraph>{recipe.recipeDescription}</Typography>
+          <Typography paragraph>Category : {recipe.category}</Typography>
           <Typography paragraph>
-            {recipe.recipeDescription}
-          </Typography>
-          <Typography paragraph>
-            Category : {recipe.category}
-          </Typography>
-          <Typography paragraph>
-            Cooking Time : {recipe.cookingTime} {recipe.cookingTime<=1? "min":"mins"}
+            Cooking Time : {recipe.cookingTime}{" "}
+            {recipe.cookingTime <= 1 ? "min" : "mins"}
           </Typography>
           <Typography paragraph>
             Count of Ratings : {recipe.countOfRatings}
@@ -136,9 +141,19 @@ export default function RecipeReviewCard({ recipe, fetchData }: RecipeData) {
           <Typography paragraph>
             Dietary Restrictions : {recipe.dietaryRestrictions}
           </Typography>
+          <Typography paragraph>Difficulty : {recipe.difficulty}</Typography>
+          <Typography paragraph>
+            Ingredients : {recipe.ingredients.join(" , ")}
+          </Typography>
+          <Typography paragraph>Tags : {recipe.tags.join(" , ")}</Typography>
         </CardContent>
       </Collapse>
-      <UpdateRecipe addItem={dialogOpen} setItem={setDialogOpen} recipe={recipe} fetchData={fetchData}/>
+      <UpdateRecipe
+        addItem={dialogOpen}
+        setItem={setDialogOpen}
+        recipe={recipe}
+        fetchData={fetchData}
+      />
     </Card>
   );
 }
