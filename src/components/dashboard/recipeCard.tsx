@@ -19,7 +19,6 @@ import { toast } from "react-toastify";
 import UpdateRecipe from "./updateRecipe";
 import { Rating, useTheme } from "@mui/material";
 import RamenDiningIcon from "@mui/icons-material/RamenDining";
-import { useThemeContext } from "../../ThemeContextProvider";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
