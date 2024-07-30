@@ -17,8 +17,9 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { deleteRecipe } from "../../utils/recipe_service/recipe";
 import { toast } from "react-toastify";
 import UpdateRecipe from "./updateRecipe";
-import { Rating } from "@mui/material";
+import { Rating, useTheme } from "@mui/material";
 import RamenDiningIcon from "@mui/icons-material/RamenDining";
+import { useThemeContext } from "../../ThemeContextProvider";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -58,7 +59,7 @@ export default function RecipeReviewCard({ recipe, fetchData }: RecipeData) {
   const [expanded, setExpanded] = React.useState(false);
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [ratings, setRatings] = React.useState<number | null>(0);
-
+  const theme = useTheme();
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -80,7 +81,10 @@ export default function RecipeReviewCard({ recipe, fetchData }: RecipeData) {
     <Card sx={{ maxWidth: 280 }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: "white" }} aria-label="recipe">
+          <Avatar
+            sx={{ bgcolor: theme.palette.primary.main }}
+            aria-label="recipe"
+          >
             <RamenDiningIcon />
           </Avatar>
         }
