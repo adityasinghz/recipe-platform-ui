@@ -9,7 +9,6 @@ import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -58,6 +57,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 export default function RecipeReviewCard({ recipe, fetchData }: RecipeData) {
   const [expanded, setExpanded] = React.useState(false);
   const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [ratings, setRatings] = React.useState<number | null>(0);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -102,7 +102,14 @@ export default function RecipeReviewCard({ recipe, fetchData }: RecipeData) {
         <Typography variant="h6" color="text.secondary">
           {recipe.recipeName}{" "}
         </Typography>
-        <Rating name="read-only" value={recipe.ratings} readOnly />
+        <Rating
+          name="simple-controlled"
+          value={recipe.ratings || ratings}
+          onChange={(event, newValue) => {
+            console.log("event ", event.target);
+            setRatings(newValue);
+          }}
+        />
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">

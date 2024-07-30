@@ -24,7 +24,6 @@ import RecipeReviewCard from "./recipeCard";
 import Cuisines from "./countryCuisines";
 import SubmitRecipe from "./submitRecipe";
 import DashboardSkeleton from "./dashboardSkeleton";
-import AnimatedPage from "../common/AnimatedPage";
 import { getRecipes } from "../../utils/recipe_service/recipe";
 
 const drawerWidth = 240;
@@ -80,6 +79,7 @@ export default function DashBoard() {
   const theme = useTheme();
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [data, setData] = React.useState<number[]>([]);
+  const [loading, setLoading] = React.useState(true);
   const navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
@@ -122,6 +122,8 @@ export default function DashBoard() {
       setData(response["data"]); // Assuming `response` is the data you need
     } catch (error) {
       toast.error("Failed to fetch Recipes!");
+    } finally {
+      setLoading(false);
     }
   };
   React.useEffect(() => {
@@ -129,8 +131,8 @@ export default function DashBoard() {
   }, []);
 
   console.log("data length : ", data.length);
-  return data || [] ? (
-    <AnimatedPage>
+  return !loading ? (
+    <>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <CustomAppBar
@@ -267,7 +269,7 @@ export default function DashBoard() {
           fetchData={fetchData}
         />
       </Box>
-    </AnimatedPage>
+    </>
   ) : (
     <DashboardSkeleton />
   );
