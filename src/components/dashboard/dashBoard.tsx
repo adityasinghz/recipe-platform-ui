@@ -25,6 +25,7 @@ import Cuisines from "./countryCuisines";
 import SubmitRecipe from "./submitRecipe";
 import DashboardSkeleton from "./dashboardSkeleton";
 import { getRecipes } from "../../utils/recipe_service/recipe";
+import AnimatedPage from "../common/AnimatedPage";
 
 const drawerWidth = 240;
 
@@ -83,39 +84,27 @@ export default function DashBoard() {
   const navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
-  const [isSubmit, setSubmit] = React.useState(true);
 
-  const handleDrawerOpen = () => {
+  const handleDrawerOpen = React.useCallback(() => {
     setOpen(true);
-  };
+  }, []);
 
-  const handleDrawerClose = () => {
+  const handleDrawerClose = React.useCallback(() => {
     setOpen(false);
-  };
-  const handleLogout = () => {
+  }, []);
+  const handleLogout = React.useCallback(() => {
     localStorage.removeItem("jwtToken");
     //localStorage.clear();
     setTimeout(() => {
       navigate("/");
     }, 1000);
     toast.error("Logged Out Successfully!");
-  };
+  }, []);
   const handleSubmitRecipe = async () => {
-    setSubmit(true);
     setDialogOpen(true);
   };
-  const handleViewRecipe = () => {
-    setSubmit(false);
-    {
-      /*VIEW API*/
-    }
-  };
-  const handleFavoriteRecipe = () => {
-    setSubmit(false);
-    {
-      /*FAV API*/
-    }
-  };
+  const handleViewRecipe = () => {};
+  const handleFavoriteRecipe = () => {};
   const fetchData = async () => {
     try {
       const response = await getRecipes();
@@ -130,16 +119,18 @@ export default function DashBoard() {
     fetchData();
   }, []);
 
+  React.useEffect(() => {
+    if (open) {
+      console.log("Drawer is open");
+    }
+  }, [open]);
+
   console.log("data length : ", data.length);
   return !loading ? (
-    <>
+    <AnimatedPage>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <CustomAppBar
-          open={open}
-          isSubmit={isSubmit}
-          handleDrawerOpen={handleDrawerOpen}
-        />
+        <CustomAppBar open={open} handleDrawerOpen={handleDrawerOpen} />
         <Drawer variant="permanent" open={open}>
           <DrawerHeader>
             <IconButton onClick={handleDrawerClose}>
@@ -269,7 +260,7 @@ export default function DashBoard() {
           fetchData={fetchData}
         />
       </Box>
-    </>
+    </AnimatedPage>
   ) : (
     <DashboardSkeleton />
   );
