@@ -20,12 +20,12 @@ import { Grid, useTheme } from "@mui/material";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CustomAppBar from "../common/AppBar";
-import RecipeReviewCard from "./recipeCard";
 import Cuisines from "./countryCuisines";
 import SubmitRecipe from "./submitRecipe";
 import DashboardSkeleton from "./dashboardSkeleton";
 import { getRecipes } from "../../utils/recipe_service/recipe";
-import AnimatedPage from "../common/AnimatedPage";
+import CircularProgress from "@mui/material/CircularProgress";
+const RecipeReviewCard = React.lazy(() => import("./recipeCard"));
 
 const drawerWidth = 240;
 
@@ -119,15 +119,9 @@ export default function DashBoard() {
     fetchData();
   }, []);
 
-  React.useEffect(() => {
-    if (open) {
-      console.log("Drawer is open");
-    }
-  }, [open]);
-
   console.log("data length : ", data.length);
   return !loading ? (
-    <AnimatedPage>
+    <>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <CustomAppBar open={open} handleDrawerOpen={handleDrawerOpen} />
@@ -249,7 +243,9 @@ export default function DashBoard() {
             </Grid>
             {data.map((recipe: any, index: number) => (
               <Grid item xs={12} md={3} sm={3} lg={3} key={index}>
-                <RecipeReviewCard recipe={recipe} fetchData={fetchData} />
+                <React.Suspense fallback={<CircularProgress />}>
+                  <RecipeReviewCard recipe={recipe} fetchData={fetchData} />
+                </React.Suspense>
               </Grid>
             ))}
           </Grid>
@@ -260,7 +256,7 @@ export default function DashBoard() {
           fetchData={fetchData}
         />
       </Box>
-    </AnimatedPage>
+    </>
   ) : (
     <DashboardSkeleton />
   );

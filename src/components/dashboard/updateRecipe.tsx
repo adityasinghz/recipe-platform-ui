@@ -194,7 +194,7 @@ export default function UpdateRecipe({
     control,
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     reset,
   } = useForm<FormInputs>({
     resolver: zodResolver(schema),
@@ -309,7 +309,7 @@ export default function UpdateRecipe({
               type="submit"
               color="inherit"
               onClick={handleSubmit(onSubmit)}
-              //disabled={!isValid}
+              disabled={!isValid}
             >
               Update
             </Button>
