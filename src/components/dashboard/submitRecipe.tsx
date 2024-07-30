@@ -471,7 +471,7 @@ export default function SubmitRecipe({
                           multiple
                           value={field.value || []} // Ensure value is an array
                           renderValue={(selected) =>
-                            (selected as string[]).join(", ")
+                            ((selected as string[]) || []).join(", ")
                           }
                         >
                           {recipeTags.map((tag) => (
@@ -499,7 +499,7 @@ export default function SubmitRecipe({
                           multiple
                           value={field.value || []} // Ensure value is an array
                           renderValue={(selected) =>
-                            (selected as string[]).join(", ")
+                            ((selected as string[]) || []).join(", ")
                           }
                         >
                           {ingredients.map((ingredient) => (

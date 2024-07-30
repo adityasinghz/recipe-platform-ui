@@ -534,7 +534,7 @@ export default function UpdateRecipe({
                           labelId="tags-label"
                           multiple
                           renderValue={(selected) =>
-                            (selected as string[]).join(", ")
+                            ((selected as string[]) || []).join(", ")
                           }
                         >
                           {recipeTags.map((tag) => (
@@ -560,7 +560,7 @@ export default function UpdateRecipe({
                           labelId="ingredients-label"
                           multiple
                           renderValue={(selected) =>
-                            (selected as string[]).join(", ")
+                            ((selected as string[]) || []).join(", ")
                           }
                         >
                           {ingredients.map((ingredient) => (
