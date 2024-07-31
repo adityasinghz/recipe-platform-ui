@@ -4,7 +4,6 @@ import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -70,7 +69,6 @@ const ImageSrc = styled("span")({
 });
 
 export default function RecipeReviewCard({ recipe, fetchData }: RecipeData) {
-  const [expanded, setExpanded] = React.useState(false);
   const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
   const [open, setOpen] = React.useState(false);
   const [ratings, setRatings] = React.useState<number | null>(0);
@@ -149,28 +147,6 @@ export default function RecipeReviewCard({ recipe, fetchData }: RecipeData) {
           <EditIcon />
         </IconButton>
       </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Recipe Description :</Typography>
-          <Typography paragraph>{recipe.recipeDescription}</Typography>
-          <Typography paragraph>Category : {recipe.category}</Typography>
-          <Typography paragraph>
-            Cooking Time : {recipe.cookingTime}{" "}
-            {recipe.cookingTime <= 1 ? "min" : "mins"}
-          </Typography>
-          <Typography paragraph>
-            Count of Ratings : {recipe.countOfRatings}
-          </Typography>
-          <Typography paragraph>
-            Dietary Restrictions : {recipe.dietaryRestrictions}
-          </Typography>
-          <Typography paragraph>Difficulty : {recipe.difficulty}</Typography>
-          <Typography paragraph>
-            Ingredients : {recipe.ingredients.join(" , ")}
-          </Typography>
-          <Typography paragraph>Tags : {recipe.tags.join(" , ")}</Typography>
-        </CardContent>
-      </Collapse>
       <UpdateRecipe
         addItem={dialogOpen}
         setItem={setDialogOpen}
