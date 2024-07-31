@@ -1,15 +1,22 @@
-import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
-import { createTheme, ThemeProvider} from '@mui/material/styles';
-import { CssBaseline } from '@mui/material';
+import {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  useEffect,
+} from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
+import { yellow, green } from "@mui/material/colors";
 
 interface ThemeContextProps {
   toggleTheme: () => void;
-  mode: 'light' | 'dark';
+  mode: "light" | "dark";
 }
 
 const ThemeContext = createContext<ThemeContextProps>({
   toggleTheme: () => {},
-  mode: 'light',
+  mode: "light",
 });
 
 export const useThemeContext = () => useContext(ThemeContext);
@@ -19,24 +26,24 @@ interface ThemeContextProviderProps {
 }
 
 const ThemeContextProvider = ({ children }: ThemeContextProviderProps) => {
-  const storedMode = localStorage.getItem('mode') as 'light' | 'dark';
-  const [mode, setMode] = useState<'light' | 'dark'>(storedMode || 'light');
+  const storedMode = localStorage.getItem("mode") as "light" | "dark";
+  const [mode, setMode] = useState<"light" | "dark">(storedMode || "light");
 
   useEffect(() => {
-    localStorage.setItem('mode', mode);
+    localStorage.setItem("mode", mode);
   }, [mode]);
 
   const theme = createTheme({
     palette: {
       mode,
       primary: {
-        main: mode === 'light' ? '#007600' : '#d2c619',
+        main: mode === "light" ? green[500] : yellow[300],
       },
     },
   });
 
   const toggleTheme = () => {
-    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+    setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
   };
 
   return (
