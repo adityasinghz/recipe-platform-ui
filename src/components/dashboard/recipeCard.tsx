@@ -6,12 +6,11 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
-import IconButton, { IconButtonProps } from "@mui/material/IconButton";
+import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { deleteRecipe } from "../../utils/recipe_service/recipe";
 import { toast } from "react-toastify";
@@ -19,10 +18,6 @@ import UpdateRecipe from "./updateRecipe";
 import { ButtonBase, Rating, useTheme } from "@mui/material";
 import RamenDiningIcon from "@mui/icons-material/RamenDining";
 import ViewRecipe from "./viewRecipe";
-
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean;
-}
 
 interface RecipeData {
   recipe: {
@@ -43,17 +38,6 @@ interface RecipeData {
   };
   fetchData: () => void; // Add fetchData as a prop
 }
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
-
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: "relative",
   height: 200,
@@ -91,9 +75,6 @@ export default function RecipeReviewCard({ recipe, fetchData }: RecipeData) {
   const [open, setOpen] = React.useState(false);
   const [ratings, setRatings] = React.useState<number | null>(0);
   const theme = useTheme();
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   const handleDelete = async (recipeId: string) => {
     try {
@@ -167,14 +148,6 @@ export default function RecipeReviewCard({ recipe, fetchData }: RecipeData) {
         <IconButton aria-label="edit" onClick={updateRecipe}>
           <EditIcon />
         </IconButton>
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>

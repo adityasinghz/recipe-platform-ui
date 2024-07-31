@@ -7,8 +7,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
-import { Grid, Box, Typography, Paper } from "@mui/material";
-
+import { Grid, Typography, Paper, useTheme } from "@mui/material";
+import ImageListItem from "@mui/material/ImageListItem";
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement<any, any>;
@@ -38,6 +38,7 @@ interface ViewRecipeProps {
 
 export default function ViewRecipe({ open, setOpen, recipe }: ViewRecipeProps) {
   const [imagePreview, setImagePreview] = React.useState<string | null>(null);
+  const theme = useTheme();
 
   React.useEffect(() => {
     if (recipe.imageToken) {
@@ -71,7 +72,7 @@ export default function ViewRecipe({ open, setOpen, recipe }: ViewRecipeProps) {
       <DialogTitle>{"View Recipe"}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-slide-description">
-          <Grid container spacing={2} direction="column" alignItems="center">
+          <Grid container direction="column" alignItems="center">
             <Grid
               item
               xs={12}
@@ -79,21 +80,30 @@ export default function ViewRecipe({ open, setOpen, recipe }: ViewRecipeProps) {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                border: `2px  ${theme.palette.primary.main} solid`,
               }}
+              component={Paper}
             >
               {imagePreview ? (
-                <Box>
+                <ImageListItem
+                  sx={{
+                    width: "100%",
+                    padding: 5,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <img
                     src={imagePreview}
                     alt="Recipe Preview"
                     style={{
                       width: "100%",
-                      height: "auto",
-                      objectFit: "cover",
-                      padding: "5%",
+                      justifyContent: "center",
+                      border: `2px  ${theme.palette.primary.main} solid`,
                     }}
                   />
-                </Box>
+                </ImageListItem>
               ) : (
                 <Typography variant="body2" color="textSecondary">
                   No image available
@@ -105,7 +115,12 @@ export default function ViewRecipe({ open, setOpen, recipe }: ViewRecipeProps) {
               xs={12}
               component={Paper}
               elevation={3}
-              sx={{ width: "100%", maxWidth: 600 }}
+              sx={{
+                width: "100%",
+                maxWidth: 600,
+                mt: 3,
+                border: `2px  ${theme.palette.primary.main} solid`,
+              }}
             >
               <Grid container spacing={1} padding={2}>
                 <Grid item xs={12}>
