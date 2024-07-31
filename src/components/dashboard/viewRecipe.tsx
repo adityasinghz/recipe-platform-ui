@@ -160,7 +160,16 @@ export default function ViewRecipe({ open, setOpen, recipe }: ViewRecipeProps) {
                   </Typography>
                   <Typography variant="body1" paragraph>
                     <span style={{ fontWeight: "bold" }}>Description:</span>{" "}
-                    {recipe.recipeDescription}
+                    <span
+                      style={{
+                        display: "inline-block",
+                        maxWidth: "100%",
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {recipe.recipeDescription}
+                    </span>
                   </Typography>
                 </Grid>
               </Grid>
