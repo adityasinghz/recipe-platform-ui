@@ -310,7 +310,7 @@ export default function UpdateRecipe({
               type="submit"
               color="inherit"
               onClick={handleSubmit(onSubmit)}
-              disabled={!isValid}
+              disabled={!isValid || !selectedImage}
             >
               Update
             </Button>
