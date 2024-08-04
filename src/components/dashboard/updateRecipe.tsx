@@ -298,7 +298,7 @@ export default function UpdateRecipe({
               edge="start"
               color="inherit"
               onClick={handleClose}
-              disabled={!isValid}
+              disabled={!isValid || !selectedImage}
               aria-label="close"
             >
               <CloseIcon />
