@@ -16,10 +16,18 @@ export default function DashboardSkeleton() {
     <Box sx={{ display: "flex" }}>
       <Grid container spacing={6}>
         <Grid item xs={2} sx={{ height: "100vh", p: 0 }}>
-          <SkeletonDrawer variant="rectangular" height="100%" />
+          <SkeletonDrawer
+            variant="rectangular"
+            height="100%"
+            data-testid="drawer-skeleton"
+          />
         </Grid>
         <Grid item xs={10} sx={{ p: 0 }}>
-          <SkeletonAppBar variant="rectangular" width="100vw" />
+          <SkeletonAppBar
+            variant="rectangular"
+            width="100vw"
+            data-testid="appbar-skeleton"
+          />
           <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <Grid container spacing={6}>
               {Array(6)
@@ -30,7 +38,7 @@ export default function DashboardSkeleton() {
                       variant="circular"
                       width={200}
                       height={200}
-                      key={index}
+                      data-testid={`circular-skeleton-${index}`}
                     />
                   </Grid>
                 ))}
@@ -42,7 +50,7 @@ export default function DashboardSkeleton() {
                       variant="rectangular"
                       width={250}
                       height={300}
-                      key={index}
+                      data-testid={`rectangular-skeleton-${index}`}
                     />
                   </Grid>
                 ))}

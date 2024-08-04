@@ -1,22 +1,22 @@
-import { screen,fireEvent, waitFor, render } from '@testing-library/react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import SignIn from '../../components/signin/signInPage';
+import { screen, fireEvent, waitFor, render } from "@testing-library/react";
+import { BrowserRouter as Router } from "react-router-dom";
+import SignIn from "../../components/signin/signInPage";
 
-
-test('initially disables the Sign In button', () => {
+test("initially disables the Sign In button", () => {
   render(
-    <Router> {/* Wrap your component with Router */}
+    <Router>
+      {" "}
+      {/* Wrap your component with Router */}
       <SignIn />
     </Router>
   );
-  
+
   // Check that the Sign In button is initially disabled
-  const signInButton = screen.getByRole('button', { name: /sign in/i });
+  const signInButton = screen.getByRole("button", { name: /sign in/i });
   expect(signInButton).toBeDisabled();
 });
 
-
-test('displays email validation error when email is empty or invalid', async () => {
+test("displays email validation error when email is empty or invalid", async () => {
   render(
     <Router>
       <SignIn />
@@ -25,11 +25,11 @@ test('displays email validation error when email is empty or invalid', async () 
 
   // Enter an invalid email address
   fireEvent.change(screen.getByLabelText(/email address/i), {
-    target: { value: 'invalid-email' }
+    target: { value: "invalid-email" },
   });
 
   // Click the Sign In button
-  fireEvent.click(screen.getByRole('button', { name: /sign in/i }));
+  fireEvent.click(screen.getByRole("button", { name: /sign in/i }));
 
   // Check for validation error
   await waitFor(() => {
@@ -37,7 +37,7 @@ test('displays email validation error when email is empty or invalid', async () 
   });
 });
 
-test('displays password validation error when password is too short', async () => {
+test("displays password validation error when password is too short", async () => {
   render(
     <Router>
       <SignIn />
@@ -46,19 +46,21 @@ test('displays password validation error when password is too short', async () =
 
   // Enter a password that is too short
   fireEvent.change(screen.getByLabelText(/password/i), {
-    target: { value: 'short' }
+    target: { value: "short" },
   });
 
   // Click the Sign In button
-  fireEvent.click(screen.getByRole('button', { name: /sign in/i }));
+  fireEvent.click(screen.getByRole("button", { name: /sign in/i }));
 
   // Check for validation error
   await waitFor(() => {
-    expect(screen.getByText(/password must be at least 8 characters long/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/password must be at least 8 characters long/i)
+    ).toBeInTheDocument();
   });
 });
 
-test('does not display password validation error for valid password', async () => {
+test("does not display password validation error for valid password", async () => {
   render(
     <Router>
       <SignIn />
@@ -67,16 +69,18 @@ test('does not display password validation error for valid password', async () =
 
   // Enter a valid password
   fireEvent.change(screen.getByLabelText(/password/i), {
-    target: { value: 'validpassword' }
+    target: { value: "validpassword" },
   });
 
   // Ensure no validation error is present
   await waitFor(() => {
-    expect(screen.queryByText(/password must be at least 8 characters long/i)).toBeNull();
+    expect(
+      screen.queryByText(/password must be at least 8 characters long/i)
+    ).toBeNull();
   });
 });
 
-test('Sign In button is disabled when fields are empty', () => {
+test("Sign In button is disabled when fields are empty", () => {
   render(
     <Router>
       <SignIn />
@@ -84,11 +88,11 @@ test('Sign In button is disabled when fields are empty', () => {
   );
 
   // Assert that the button is initially disabled
-  const signInButton = screen.getByRole('button', { name: /sign in/i });
+  const signInButton = screen.getByRole("button", { name: /sign in/i });
   expect(signInButton).toBeDisabled();
 });
 
-test('Sign In button is enabled when both email and password are valid', async () => {
+test("Sign In button is enabled when both email and password are valid", async () => {
   render(
     <Router>
       <SignIn />
@@ -97,23 +101,23 @@ test('Sign In button is enabled when both email and password are valid', async (
 
   // Enter valid email
   fireEvent.change(screen.getByLabelText(/email address/i), {
-    target: { value: 'valid@example.com' }
+    target: { value: "valid@example.com" },
   });
 
   // Enter valid password
   fireEvent.change(screen.getByLabelText(/password/i), {
-    target: { value: 'validpassword' }
+    target: { value: "validpassword" },
   });
 
   // Wait for the validation state to update
   await waitFor(() => {
     // Assert that the button is enabled
-    const signInButton = screen.getByRole('button', { name: /sign in/i });
+    const signInButton = screen.getByRole("button", { name: /sign in/i });
     expect(signInButton).not.toBeDisabled();
   });
 });
 
-test('Sign In button is disabled when email is invalid or password is too short', () => {
+test("Sign In button is disabled when email is invalid or password is too short", () => {
   render(
     <Router>
       <SignIn />
@@ -122,32 +126,32 @@ test('Sign In button is disabled when email is invalid or password is too short'
 
   // Enter an invalid email
   fireEvent.change(screen.getByLabelText(/email address/i), {
-    target: { value: 'invalid-email' }
+    target: { value: "invalid-email" },
   });
 
   // Enter a valid password
   fireEvent.change(screen.getByLabelText(/password/i), {
-    target: { value: 'validpassword' }
+    target: { value: "validpassword" },
   });
 
   // Assert that the button is disabled
-  const signInButton = screen.getByRole('button', { name: /sign in/i });
+  const signInButton = screen.getByRole("button", { name: /sign in/i });
   expect(signInButton).toBeDisabled();
 
   // Clear email and enter a short password
   fireEvent.change(screen.getByLabelText(/email address/i), {
-    target: { value: '' }
+    target: { value: "" },
   });
 
   fireEvent.change(screen.getByLabelText(/password/i), {
-    target: { value: 'short' }
+    target: { value: "short" },
   });
 
   // Assert that the button is still disabled
   expect(signInButton).toBeDisabled();
 });
 
-test('Sign In button is disabled when email is empty and password is filled', async () => {
+test("Sign In button is disabled when email is empty and password is filled", async () => {
   render(
     <Router>
       <SignIn />
@@ -156,17 +160,17 @@ test('Sign In button is disabled when email is empty and password is filled', as
 
   // Enter a valid password
   fireEvent.change(screen.getByLabelText(/password/i), {
-    target: { value: 'validpassword' }
+    target: { value: "validpassword" },
   });
 
   // Check if the button is disabled
   await waitFor(() => {
-    const signInButton = screen.getByRole('button', { name: /sign in/i });
+    const signInButton = screen.getByRole("button", { name: /sign in/i });
     expect(signInButton).toBeDisabled();
   });
 });
 
-test('Sign In button is disabled when password is empty and email is filled', async () => {
+test("Sign In button is disabled when password is empty and email is filled", async () => {
   render(
     <Router>
       <SignIn />
@@ -175,17 +179,17 @@ test('Sign In button is disabled when password is empty and email is filled', as
 
   // Enter a valid email
   fireEvent.change(screen.getByLabelText(/email address/i), {
-    target: { value: 'valid@example.com' }
+    target: { value: "valid@example.com" },
   });
 
   // Check if the button is disabled
   await waitFor(() => {
-    const signInButton = screen.getByRole('button', { name: /sign in/i });
+    const signInButton = screen.getByRole("button", { name: /sign in/i });
     expect(signInButton).toBeDisabled();
   });
 });
 
-test('Sign In button is disabled when email is invalid and password is valid', async () => {
+test("Sign In button is disabled when email is invalid and password is valid", async () => {
   render(
     <Router>
       <SignIn />
@@ -194,17 +198,17 @@ test('Sign In button is disabled when email is invalid and password is valid', a
 
   // Enter an invalid email
   fireEvent.change(screen.getByLabelText(/email address/i), {
-    target: { value: 'invalid-email' }
+    target: { value: "invalid-email" },
   });
 
   // Enter a valid password
   fireEvent.change(screen.getByLabelText(/password/i), {
-    target: { value: 'validpassword' }
+    target: { value: "validpassword" },
   });
 
   // Check if the button is disabled
   await waitFor(() => {
-    const signInButton = screen.getByRole('button', { name: /sign in/i });
+    const signInButton = screen.getByRole("button", { name: /sign in/i });
     expect(signInButton).toBeDisabled();
   });
 });

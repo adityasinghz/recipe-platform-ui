@@ -124,10 +124,14 @@ export default function DashBoard() {
     <>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <CustomAppBar open={open} handleDrawerOpen={handleDrawerOpen} />
+        <CustomAppBar
+          data-testid="open-drawer"
+          open={open}
+          handleDrawerOpen={handleDrawerOpen}
+        />
         <Drawer variant="permanent" open={open}>
           <DrawerHeader>
-            <IconButton onClick={handleDrawerClose}>
+            <IconButton data-testid="close-drawer" onClick={handleDrawerClose}>
               {theme.direction === "rtl" ? (
                 <ChevronRightIcon />
               ) : (

@@ -341,6 +341,7 @@ export default function SubmitRecipe({
                     margin="normal"
                     required
                     fullWidth
+                    data-testid="recipe_name"
                     label="Recipe Name"
                     {...register("recipeName")}
                     error={!!errors.recipeName}

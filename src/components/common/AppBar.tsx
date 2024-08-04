@@ -105,7 +105,12 @@ const CustomAppBar: React.FC<AppBarProps> = React.memo(
               />
             </Search>
             <Box sx={{ flexGrow: 1 }} />
-            <IconButton sx={{ mr: 1 }} onClick={toggleTheme} color="inherit">
+            <IconButton
+              data-testid="open-drawer"
+              sx={{ mr: 1 }}
+              onClick={toggleTheme}
+              color="inherit"
+            >
               {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
             <Avatar alt="User Avatar" src="/images/aditya.jpeg" />
