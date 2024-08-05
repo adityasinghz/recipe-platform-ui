@@ -80,7 +80,7 @@ export default function ViewRecipe({ open, setOpen, recipe }: ViewRecipeProps) {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                border: `2px  ${theme.palette.primary.main} solid`,
+                //border: `2px  ${theme.palette.primary.main} solid`,
               }}
               component={Paper}
             >
@@ -119,7 +119,7 @@ export default function ViewRecipe({ open, setOpen, recipe }: ViewRecipeProps) {
                 width: "100%",
                 maxWidth: 600,
                 mt: 3,
-                border: `2px  ${theme.palette.primary.main} solid`,
+                //border: `2px  ${theme.palette.primary.main} solid`,
               }}
             >
               <Grid container spacing={1} padding={2}>
