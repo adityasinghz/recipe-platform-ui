@@ -125,41 +125,102 @@ export default function ViewRecipe({ open, setOpen, recipe }: ViewRecipeProps) {
               <Grid container spacing={1} padding={2}>
                 <Grid item xs={12}>
                   <Typography variant="body1">
-                    <span style={{ fontWeight: "bold" }}>Name:</span>{" "}
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        color: `${theme.palette.primary.main}`,
+                      }}
+                    >
+                      Name:
+                    </span>{" "}
                     {recipe.recipeName}
                   </Typography>
                   <Typography variant="body1">
-                    <span style={{ fontWeight: "bold" }}>Cuisine:</span>{" "}
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        color: `${theme.palette.primary.main}`,
+                      }}
+                    >
+                      Cuisine:
+                    </span>{" "}
                     {recipe.cuisine}
                   </Typography>
                   <Typography variant="body1">
-                    <span style={{ fontWeight: "bold" }}>Category:</span>{" "}
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        color: `${theme.palette.primary.main}`,
+                      }}
+                    >
+                      Category:
+                    </span>{" "}
                     {recipe.category}
                   </Typography>
                   <Typography variant="body1">
-                    <span style={{ fontWeight: "bold" }}>Cooking Time:</span>{" "}
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        color: `${theme.palette.primary.main}`,
+                      }}
+                    >
+                      Cooking Time:
+                    </span>{" "}
                     {recipe.cookingTime} minutes
                   </Typography>
                   <Typography variant="body1">
-                    <span style={{ fontWeight: "bold" }}>Difficulty:</span>{" "}
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        color: `${theme.palette.primary.main}`,
+                      }}
+                    >
+                      Difficulty:
+                    </span>{" "}
                     {recipe.difficulty}
                   </Typography>
                   <Typography variant="body1">
-                    <span style={{ fontWeight: "bold" }}>
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        color: `${theme.palette.primary.main}`,
+                      }}
+                    >
                       Dietary Restrictions:
                     </span>{" "}
                     {recipe.dietaryRestrictions}
                   </Typography>
                   <Typography variant="body1">
-                    <span style={{ fontWeight: "bold" }}>Ingredients:</span>{" "}
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        color: `${theme.palette.primary.main}`,
+                      }}
+                    >
+                      Ingredients:
+                    </span>{" "}
                     {recipe.ingredients.join(", ")}
                   </Typography>
                   <Typography variant="body1">
-                    <span style={{ fontWeight: "bold" }}>Tags:</span>{" "}
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        color: `${theme.palette.primary.main}`,
+                      }}
+                    >
+                      Tags:
+                    </span>{" "}
                     {recipe.tags.join(", ")}
                   </Typography>
                   <Typography variant="body1" paragraph>
-                    <span style={{ fontWeight: "bold" }}>Description:</span>{" "}
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        color: `${theme.palette.primary.main}`,
+                      }}
+                    >
+                      Description:
+                    </span>{" "}
                     <span
                       style={{
                         display: "inline-block",
